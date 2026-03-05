@@ -46,6 +46,12 @@
 - **Spacing:** Use intentional, consistent spacing tokens — not random Tailwind steps.
 - **Depth:** Surfaces should have a layering system (base → elevated → floating), not all sit at the same z-plane.
 
+## Deployment & Git
+- **Never commit or push to GitHub unless explicitly told to.**
+- All changes are local only and tested on localhost until approved.
+- When the work looks good, you will explicitly say to commit — only then should anything be staged, committed, and pushed.
+- GitHub is connected to Vercel and auto-deploys on every push. Pushing prematurely = deploying prematurely.
+
 ## Hard Rules
 - Do not add sections, features, or content not in the reference
 - Do not "improve" a reference design — match it
