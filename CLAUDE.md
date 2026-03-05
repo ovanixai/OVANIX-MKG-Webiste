@@ -52,6 +52,13 @@
 - When the work looks good, you will explicitly say to commit — only then should anything be staged, committed, and pushed.
 - GitHub is connected to Vercel and auto-deploys on every push. Pushing prematurely = deploying prematurely.
 
+## Skills
+
+### `/seo-audit [URL or file/folder path]`
+Expert SEO audit for MKG Quebec bilingual sites. Audits HTML files (or a given URL/path) for meta tags, hreflang pairs, page structure, and technical SEO. Produces a severity-rated `seo-report.md` with per-page scores, keyword confirmation step, and a gated fix pass. **Manual invocation only (`/seo-audit`) — Claude will not trigger this automatically.** Never modifies files without explicit confirmation.
+
+---
+
 ## Hard Rules
 - Do not add sections, features, or content not in the reference
 - Do not "improve" a reference design — match it
