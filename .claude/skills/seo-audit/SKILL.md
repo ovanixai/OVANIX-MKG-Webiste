@@ -1,7 +1,7 @@
 ---
 name: seo-audit
 description: Use when someone asks to audit SEO, improve search rankings, check meta tags, fix hreflang, analyze page structure, or run an SEO report on a website.
-argument-hint: [URL or file/folder path — optional, defaults to all .html files]
+argument-hint: "[URL or file/folder path — optional, defaults to all .html files]"
 disable-model-invocation: true
 ---
 

@@ -179,7 +179,7 @@ Here's a minimal but complete skill you can use as a starting template:
 ---
 name: meeting-notes
 description: Use when someone asks to summarize meeting notes, recap a meeting, or format meeting minutes.
-argument-hint: [topic or date]
+argument-hint: "[topic or date]"
 ---
 
 ## What This Skill Does

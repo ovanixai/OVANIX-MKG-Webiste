@@ -42,14 +42,28 @@
       inset: 0 0 auto;
       z-index: 200;
       padding: 28px 64px;
-      transition: background 0.5s ease, box-shadow 0.5s ease, padding 0.5s ease;
+      transition: background 0.5s ease, box-shadow 0.5s ease, padding 0.5s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
     #main-nav.solid {
       background: rgba(255,255,255,0.97);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.07);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 4px 24px rgba(0,0,0,0.05);
       padding: 18px 64px;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
+    #main-nav.solid .nav-link          { color: #111; }
+    #main-nav.solid .nav-dropdown-trigger { color: #111; }
+    #main-nav.solid .nav-cta           { color: #111; border-color: rgba(0,0,0,0.3); }
+    #main-nav.solid .nav-cta:hover     { background: #111; color: #fff; border-color: #111; }
+    #main-nav.solid .nav-logo          { filter: brightness(0); }
+    #main-nav.solid .nav-dropdown {
+      background: rgba(255,255,255,0.98);
+      border-color: rgba(0,0,0,0.09);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05);
+    }
+    #main-nav.solid .nav-dropdown-link       { color: #333; }
+    #main-nav.solid .nav-dropdown-link:hover { color: #111; background: rgba(0,0,0,0.04); }
     .nav-inner {
       display: flex;
       align-items: center;
@@ -63,8 +77,6 @@
       transition: filter 0.4s ease;
       filter: brightness(0) invert(1);
     }
-    #main-nav.solid .nav-logo { filter: brightness(0); }
-
     .nav-links { display: flex; gap: 40px; align-items: center; }
     .nav-link {
       font-size: 13px;
@@ -75,7 +87,6 @@
       transition: color 0.25s, opacity 0.25s;
     }
     .nav-link:hover { opacity: 0.55; }
-    #main-nav.solid .nav-link { color: #111; }
     .nav-cta {
       font-size: 12px;
       font-weight: 400;
@@ -88,11 +99,6 @@
       transition: background 0.25s, border-color 0.25s, color 0.25s;
     }
     .nav-cta:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.9); }
-    #main-nav.solid .nav-cta {
-      color: #111;
-      border-color: rgba(0,0,0,0.3);
-    }
-    #main-nav.solid .nav-cta:hover { background: #111; color: #fff; border-color: #111; }
 
     /* ─── Hero ─── */
     #hero {
@@ -103,42 +109,25 @@
       align-items: flex-end;
       overflow: hidden;
     }
-    #hero-bg {
+    #hero-video {
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(ellipse 120% 80% at 70% 40%, #2d2416 0%, #1a1510 45%, #0e0d0a 100%);
-      transform-origin: center;
-      will-change: transform;
-    }
-    #hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
-      opacity: 0.6;
-      mix-blend-mode: overlay;
-      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
     }
     #hero-overlay {
       position: absolute;
       inset: 0;
+      z-index: 1;
       background: linear-gradient(
         to top,
         rgba(0,0,0,0.72) 0%,
-        rgba(0,0,0,0.18) 45%,
-        rgba(0,0,0,0.05) 100%
+        rgba(0,0,0,0.28) 45%,
+        rgba(0,0,0,0.12) 100%
       );
-    }
-    #hero-bloom {
-      position: absolute;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 900px;
-      height: 600px;
-      background: radial-gradient(ellipse at center, rgba(200,160,90,0.12) 0%, transparent 70%);
-      pointer-events: none;
     }
     .hero-content {
       position: relative;
@@ -164,14 +153,16 @@
       color: #fff;
       letter-spacing: -0.025em;
       max-width: 780px;
+      text-shadow: 0 2px 32px rgba(0,0,0,0.5);
     }
     .hero-sub {
       font-size: 16px;
       line-height: 1.8;
       font-weight: 300;
-      color: rgba(255,255,255,0.62);
+      color: rgba(255,255,255,0.72);
       max-width: 480px;
       margin-top: 28px;
+      text-shadow: 0 1px 12px rgba(0,0,0,0.4);
     }
     .hero-cta {
       display: inline-flex;
@@ -588,7 +579,6 @@
       font-family: 'DM Sans', sans-serif;
     }
     .nav-dropdown-trigger:hover { opacity: 0.55; }
-    #main-nav.solid .nav-dropdown-trigger { color: #111; }
     .nav-dropdown-chevron {
       transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 0.65;
@@ -610,11 +600,17 @@
       backdrop-filter: blur(14px);
       z-index: 300;
     }
-    #main-nav.solid .nav-dropdown {
-      background: rgba(255,255,255,0.98);
-      border-color: rgba(0,0,0,0.09);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05);
+    /* Bridge covers the gap so CSS :hover stays active during mouse travel */
+    .nav-dropdown::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 0;
+      right: 0;
+      height: 14px;
     }
+    /* CSS :hover is authoritative — it tracks absolute descendants correctly */
+    .nav-item:hover .nav-dropdown,
     .nav-dropdown.open {
       opacity: 1;
       pointer-events: auto;
@@ -630,12 +626,15 @@
       transition: color 0.2s, background 0.2s;
       white-space: nowrap;
     }
-    #main-nav.solid .nav-dropdown-link { color: #333; }
     .nav-dropdown-link:hover { color: #fff; background: rgba(255,255,255,0.07); }
-    #main-nav.solid .nav-dropdown-link:hover { color: #111; background: rgba(0,0,0,0.04); }
-    .nav-dropdown-dot {
-      width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; opacity: 0.9;
+    .nav-franchise-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 15px;
+      font-weight: 400;
     }
+    .nav-franchise-name[data-brand="thaizone"] { color: #E91E8C; }
+    .nav-franchise-name[data-brand="yuzu"]     { color: #D4A547; }
 
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
@@ -678,17 +677,15 @@
           </button>
           <div class="nav-dropdown" id="nav-franchises-menu" role="menu" aria-labelledby="nav-franchises-btn">
             <a href="/nos-franchises/thaizone/" class="nav-dropdown-link" role="menuitem">
-              <span class="nav-dropdown-dot" style="background:#E91E8C;"></span>
-              Thaïzone
+              <em class="nav-franchise-name" data-brand="thaizone">Thaïzone</em>
             </a>
             <a href="/nos-franchises/yuzu-sushi/" class="nav-dropdown-link" role="menuitem">
-              <span class="nav-dropdown-dot" style="background:#D4A547;"></span>
-              Yuzu Sushi
+              <em class="nav-franchise-name" data-brand="yuzu">Yuzu Sushi</em>
             </a>
           </div>
         </div>
-        <a href="#valeurs" class="nav-link">Nos Valeurs</a>
-        <a href="#engagement" class="nav-link">Engagement</a>
+        <a href="/realisations/" class="nav-link">Réalisations</a>
+        <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link">Carrières</a>
         <a href="#franchises" class="nav-cta">Nos Succursales</a>
       </div>
@@ -697,8 +694,11 @@
 
   <!-- ═══ HERO ═══ -->
   <section id="hero">
-    <div id="hero-bg"></div>
-    <div id="hero-bloom"></div>
+    <video id="hero-video"
+      src="brand_assets/sushi video test.mp4"
+      autoplay muted loop playsinline
+      poster="https://placehold.co/1920x1080/111111/111111">
+    </video>
     <div id="hero-overlay"></div>
 
     <div class="hero-content">
@@ -846,26 +846,30 @@
       <div class="franchise-grid">
 
         <!-- Thaïzone — warm amber tones -->
-        <div class="franchise-card fade-up">
-          <!-- Placeholder for Thaïzone storefront image -->
-          <img src="brand_assets/thaizone logo vrai.png" alt="Thaïzone — Cuisine thaïlandaise urbaine" style="object-fit:contain; background:#fff; padding: 60px 80px;">
-          <div class="franchise-overlay">
-            <h3 class="franchise-brand">Thaïzone</h3>
-            <p class="franchise-tagline">Une cuisine thaïlandaise urbaine, audacieuse, fraîche et rapide.</p>
-            <a href="/nos-franchises/thaizone/" class="franchise-link">En savoir plus</a>
+        <a href="/nos-franchises/thaizone/" style="text-decoration:none; color:inherit; display:block;">
+          <div class="franchise-card fade-up">
+            <!-- Placeholder for Thaïzone storefront image -->
+            <img src="brand_assets/thaizone logo vrai.png" alt="Thaïzone — Cuisine thaïlandaise urbaine" style="object-fit:contain; background:#fff; padding: 60px 80px;">
+            <div class="franchise-overlay">
+              <h3 class="franchise-brand">Thaïzone</h3>
+              <p class="franchise-tagline">Une cuisine thaïlandaise urbaine, audacieuse, fraîche et rapide.</p>
+              <span class="franchise-link">En savoir plus</span>
+            </div>
           </div>
-        </div>
+        </a>
 
         <!-- Yuzu Sushi — cool dark teal tones -->
-        <div class="franchise-card fade-up d1">
-          <!-- Placeholder for Yuzu Sushi storefront image -->
-          <img src="brand_assets/yuzu suhi logo.png" alt="Yuzu Sushi — Sushis premium créatifs" style="object-fit:contain; background:#fff;">
-          <div class="franchise-overlay">
-            <h3 class="franchise-brand">Yuzu Sushi</h3>
-            <p class="franchise-tagline">Des sushis premium raffinés, créatifs et de haute qualité.</p>
-            <a href="/nos-franchises/yuzu-sushi/" class="franchise-link">En savoir plus</a>
+        <a href="/nos-franchises/yuzu-sushi/" style="text-decoration:none; color:inherit; display:block;">
+          <div class="franchise-card fade-up d1">
+            <!-- Placeholder for Yuzu Sushi storefront image -->
+            <img src="brand_assets/yuzu suhi logo.png" alt="Yuzu Sushi — Sushis premium créatifs" style="object-fit:contain; background:#fff;">
+            <div class="franchise-overlay">
+              <h3 class="franchise-brand">Yuzu Sushi</h3>
+              <p class="franchise-tagline">Des sushis premium raffinés, créatifs et de haute qualité.</p>
+              <span class="franchise-link">En savoir plus</span>
+            </div>
           </div>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -883,7 +887,7 @@
 
       <div class="portfolio-grid fade-up">
         <!-- Tall item -->
-        <div class="port-item item-tall" style="min-height:560px;">
+        <a href="/realisations/" class="port-item item-tall" style="min-height:560px; text-decoration:none;">
           <!-- Placeholder for youth program image -->
           <img src="https://placehold.co/680x680/1e1814/2e2420" alt="Programme Jeunesse MKG">
           <div class="port-overlay">
@@ -891,9 +895,9 @@
             <h3 class="port-caption-title">Programme <em>Jeunesse</em></h3>
             <p class="port-caption-sub">Formation & insertion professionnelle</p>
           </div>
-        </div>
+        </a>
         <!-- Short items -->
-        <div class="port-item" style="min-height:270px;">
+        <a href="/realisations/" class="port-item" style="min-height:270px; text-decoration:none;">
           <!-- Placeholder for local partnerships image -->
           <img src="https://placehold.co/500x320/141820/1e2030" alt="Partenariats locaux">
           <div class="port-overlay">
@@ -901,8 +905,8 @@
             <h3 class="port-caption-title">Partenariats <em>locaux</em></h3>
             <p class="port-caption-sub">Fournisseurs du quartier & circuits courts</p>
           </div>
-        </div>
-        <div class="port-item" style="min-height:270px;">
+        </a>
+        <a href="/realisations/" class="port-item" style="min-height:270px; text-decoration:none;">
           <!-- Placeholder for sustainability initiative image -->
           <img src="https://placehold.co/500x320/181e14/222a1e" alt="Initiative durable">
           <div class="port-overlay">
@@ -910,11 +914,11 @@
             <h3 class="port-caption-title">Initiative <em>durable</em></h3>
             <p class="port-caption-sub">Réduction des déchets alimentaires · −30%</p>
           </div>
-        </div>
+        </a>
       </div>
 
       <div class="fade-up" style="margin-top:52px; text-align:center;">
-        <a href="#"
+        <a href="/realisations/"
           style="font-size:12px; font-weight:400; letter-spacing:0.1em; text-transform:uppercase; color:#111; text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.3); padding-bottom:3px; transition:border-color 0.25s, opacity 0.25s;"
           onmouseover="this.style.borderColor='#111'; this.style.opacity=0.6"
           onmouseout="this.style.borderColor='rgba(0,0,0,0.3)'; this.style.opacity=1">
@@ -980,8 +984,18 @@
   <script>
     /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
+    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('solid', window.scrollY > 60);
+      const y = window.scrollY;
+      if (y < 60) {
+        nav.classList.remove('solid', 'nav-hidden');
+      } else if (y > lastScrollY) {
+        nav.classList.add('solid');
+        nav.classList.remove('nav-hidden');
+      } else {
+        nav.classList.add('nav-hidden');
+      }
+      lastScrollY = y;
     }, { passive: true });
 
     /* ── Franchise dropdown ── */
@@ -990,20 +1004,19 @@
       const btn  = document.getElementById('nav-franchises-btn');
       const menu = document.getElementById('nav-franchises-menu');
       if (!item || !btn || !menu) return;
-      function open()  { btn.setAttribute('aria-expanded','true');  menu.classList.add('open'); }
-      function close() { btn.setAttribute('aria-expanded','false'); menu.classList.remove('open'); }
-      btn.addEventListener('click', e => { e.stopPropagation(); btn.getAttribute('aria-expanded')==='true' ? close() : open(); });
-      item.addEventListener('mouseenter', open);
-      item.addEventListener('mouseleave', close);
-      item.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
-      document.addEventListener('click', e => { if (!item.contains(e.target)) close(); });
+      // CSS :hover handles show/hide reliably (tracks absolute descendants correctly).
+      // JS only manages aria-expanded for screen readers and keyboard nav.
+      item.addEventListener('mouseenter', () => btn.setAttribute('aria-expanded', 'true'));
+      item.addEventListener('mouseleave', () => btn.setAttribute('aria-expanded', 'false'));
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        menu.classList.toggle('open', !open);
+      });
+      item.addEventListener('keydown', e => { if (e.key === 'Escape') { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); btn.focus(); } });
+      document.addEventListener('click', e => { if (!item.contains(e.target)) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); } });
     })();
-
-    /* ── Hero parallax ── */
-    const heroBg = document.getElementById('hero-bg');
-    window.addEventListener('scroll', () => {
-      heroBg.style.transform = `translateY(${window.scrollY * 0.28}px)`;
-    }, { passive: true });
 
     /* ── Scroll fade-in ── */
     const io = new IntersectionObserver(entries => {

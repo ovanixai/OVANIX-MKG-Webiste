@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réalisations — MKG Gestion | Nos contributions à la communauté</title>
+  <meta name="description" content="Découvrez les réalisations et contributions communautaires de MKG Gestion — des actions concrètes qui font une différence au Québec.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #fff;
+      color: #111;
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* ─── Fade-up animation ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-up.d1 { transition-delay: 0.12s; }
+    .fade-up.d2 { transition-delay: 0.24s; }
+    .fade-up.d3 { transition-delay: 0.38s; }
+    .fade-up.d4 { transition-delay: 0.54s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── Nav — always solid (subpage) ─── */
+    #main-nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      padding: 18px 64px;
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: padding 0.4s ease;
+    }
+    #main-nav.compact { padding: 12px 64px; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .nav-logo { height: 56px; width: auto; filter: brightness(0); }
+    .nav-links { display: flex; gap: 40px; align-items: center; }
+    .nav-link {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      color: #111;
+      transition: opacity 0.25s;
+    }
+    .nav-link:hover { opacity: 0.45; }
+    .nav-link.active { opacity: 0.4; cursor: default; pointer-events: none; }
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #111;
+      border: 1px solid rgba(0,0,0,0.3);
+      padding: 9px 22px;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+    }
+    .nav-cta:hover { background: #111; color: #fff; border-color: #111; }
+
+    /* Nav dropdown */
+    .nav-item { position: relative; }
+    .nav-dropdown-trigger {
+      background: none; border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; padding: 0;
+      font-size: 13px; font-weight: 400; letter-spacing: 0.03em;
+      color: #111;
+      transition: opacity 0.25s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .nav-dropdown-trigger:hover { opacity: 0.45; }
+    .nav-dropdown-chevron { transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0.6; }
+    .nav-dropdown-trigger[aria-expanded="true"] .nav-dropdown-chevron { transform: rotate(180deg); }
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-6px);
+      min-width: 176px;
+      background: rgba(255,255,255,0.98);
+      border: 1px solid rgba(0,0,0,0.09);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.05);
+      padding: 8px 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.22s cubic-bezier(0.16,1,0.3,1);
+      backdrop-filter: blur(14px);
+      z-index: 300;
+    }
+    .nav-dropdown::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 0;
+      right: 0;
+      height: 14px;
+    }
+    .nav-item:hover .nav-dropdown,
+    .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+    .nav-dropdown-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 400; letter-spacing: 0.03em;
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-dropdown-link:hover { color: #111; background: rgba(0,0,0,0.04); }
+    .nav-franchise-name { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; font-weight: 400; }
+    .nav-franchise-name[data-brand="thaizone"] { color: #E91E8C; }
+    .nav-franchise-name[data-brand="yuzu"]     { color: #D4A547; }
+
+    /* ─── Hero ─── */
+    #hero {
+      position: relative;
+      padding: 180px 64px 128px;
+      background: #111;
+      overflow: hidden;
+    }
+    #hero-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.55) 50%,
+        rgba(0,0,0,0.35) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+    #hero::after { display: none; }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .scroll-indicator { z-index: 2; }
+    .hero-eyebrow {
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 28px;
+    }
+    .hero-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 5.2vw, 74px);
+      line-height: 1.06;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: -0.025em;
+      max-width: 700px;
+    }
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.8;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      max-width: 520px;
+      margin-top: 28px;
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 44px;
+      right: 64px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 54px;
+      background: rgba(255,255,255,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.6);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0% { top: -100%; }
+      100% { top: 200%; }
+    }
+    .scroll-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      writing-mode: vertical-rl;
+    }
+
+    /* ─── Timeline ─── */
+    #timeline {
+      padding: 128px 64px;
+      background: #fff;
+    }
+    .timeline-header {
+      max-width: 1360px;
+      margin: 0 auto 112px;
+    }
+    .eyebrow {
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    /* ─── Track & center line ─── */
+    .timeline-track {
+      position: relative;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(0,0,0,0.1);
+      transform: translateX(-50%);
+    }
+
+    /* ─── Year Marker ─── */
+    .timeline-year {
+      position: relative;
+      text-align: center;
+      margin: 140px 0 112px;
+    }
+    .timeline-year::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0,0,0,0.07);
+    }
+    .timeline-year:first-child { margin-top: 0; }
+    .year-label-wrap {
+      position: relative;
+      display: inline-block;
+      background: #fff;
+      padding: 0 28px;
+    }
+    .year-num-ghost {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 120px;
+      font-weight: 400;
+      color: #111;
+      opacity: 0.03;
+      letter-spacing: -0.04em;
+      pointer-events: none;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .year-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: #bbb;
+    }
+
+    /* ─── Timeline Entry — Split Layout ─── */
+    .timeline-entry {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 80px 1fr;
+      align-items: center;
+      margin-bottom: 180px;
+    }
+    .timeline-entry:last-child { margin-bottom: 0; }
+
+    /* entry-left: images left | dot center | text right */
+    .timeline-entry.entry-left .entry-images { grid-column: 1; grid-row: 1; }
+    .timeline-entry.entry-left .entry-dot-zone { grid-column: 2; grid-row: 1; }
+    .timeline-entry.entry-left .entry-text { grid-column: 3; grid-row: 1; padding-left: 56px; }
+
+    /* entry-right: text left | dot center | images right */
+    .timeline-entry.entry-right .entry-text { grid-column: 1; grid-row: 1; padding-right: 56px; }
+    .timeline-entry.entry-right .entry-dot-zone { grid-column: 2; grid-row: 1; }
+    .timeline-entry.entry-right .entry-images { grid-column: 3; grid-row: 1; }
+
+    /* Dot zone — the center column */
+    .entry-dot-zone {
+      display: flex;
+      justify-content: center;
+      align-self: stretch;
+      padding-top: 40px;
+      z-index: 2;
+    }
+    .entry-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #111;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .timeline-entry:hover .entry-dot {
+      transform: scale(1.6);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* ─── Image Panel ─── */
+    .entry-images {
+      position: relative;
+      overflow: hidden;
+      background: #0e0d0a;
+      line-height: 0;
+    }
+    .entry-images.one-up { height: 520px; }
+    .entry-images.two-up {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      height: 420px;
+    }
+    .entry-images.three-up {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      height: 520px;
+    }
+    .entry-images.three-up .photo-main { grid-row: 1 / 3; }
+    .entry-images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .timeline-entry:hover .entry-images img { transform: scale(1.04); }
+    /* Dim overlay on hover */
+    .entry-images::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.15);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .timeline-entry:hover .entry-images::after { opacity: 1; }
+
+    /* ─── Text Panel ─── */
+    .entry-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .entry-eyebrow {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 18px;
+    }
+    .entry-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 2.8vw, 44px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: #111;
+      margin-bottom: 20px;
+    }
+    .entry-subtitle {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    .entry-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #777;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    /* ─── CTA Strip ─── */
+    #cta-strip {
+      background: linear-gradient(120deg, #181410 0%, #1e1a12 50%, #14130e 100%);
+      padding: 96px 64px;
+      text-align: center;
+    }
+    .cta-strip-inner { max-width: 640px; margin: 0 auto; }
+    .cta-strip-label {
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 22px;
+    }
+    .cta-strip-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 44px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 36px;
+    }
+    .cta-strip-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .cta-strip-link::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 1px;
+      background: rgba(255,255,255,0.35);
+      transition: width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.25s;
+    }
+    .cta-strip-link:hover { color: #fff; }
+    .cta-strip-link:hover::after { width: 72px; background: rgba(255,255,255,0.7); }
+
+    /* ─── Footer ─── */
+    #footer {
+      background: #fff;
+      padding: 72px 64px 40px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+    .footer-inner { max-width: 1360px; margin: 0 auto; }
+    .footer-link {
+      font-size: 14px;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+      line-height: 2;
+      display: block;
+    }
+    .footer-link:hover { color: #111; }
+    .footer-col-title {
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 18px;
+    }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(0,0,0,0.14);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #111; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .social-btn:hover { background: #111; border-color: #111; color: #fff; }
+    .social-btn:hover svg { stroke: #fff; }
+    .social-btn svg { transition: stroke 0.2s; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      #main-nav { padding: 14px 28px; }
+      #main-nav.compact { padding: 10px 28px; }
+      .nav-links { gap: 22px; }
+      #hero { padding: 140px 28px 96px; }
+      .scroll-indicator { right: 28px; bottom: 32px; }
+      #timeline { padding: 88px 28px; }
+      .timeline-header { margin-bottom: 72px; }
+
+      /* Single-column timeline on mobile */
+      .timeline-track::before {
+        left: 20px;
+        transform: none;
+      }
+      .timeline-entry {
+        display: block;
+        padding-left: 52px;
+        margin-bottom: 80px;
+      }
+      /* Mobile dot via pseudo-element */
+      .timeline-entry::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 24px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #111;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+        transform: translateX(-50%);
+        z-index: 2;
+      }
+      .entry-dot-zone { display: none; }
+      /* Images always on top, text below */
+      .entry-images { width: 100%; }
+      .entry-images.one-up { height: 240px; }
+      .entry-images.two-up { height: 180px; }
+      .entry-images.three-up { height: 240px; }
+      .entry-text {
+        padding: 28px 0 0 0 !important;
+      }
+      .timeline-year { margin: 64px 0 52px; }
+      .year-num-ghost { font-size: 72px; }
+
+      #cta-strip { padding: 72px 28px; }
+      #footer { padding: 60px 28px 32px; }
+      .footer-top { flex-direction: column; gap: 48px !important; }
+      .footer-cols { gap: 40px !important; }
+    }
+    @media (max-width: 560px) {
+      .nav-links { gap: 14px; }
+      .entry-title { font-size: 26px; }
+      .year-num-ghost { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="/"><img src="../brand_assets/MKG Logo.png" alt="MKG Gestion" class="nav-logo"></a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Accueil</a>
+        <div class="nav-item" id="nav-franchises-item">
+          <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false"
+            aria-controls="nav-franchises-menu" id="nav-franchises-btn">
+            Nos Franchises
+            <svg class="nav-dropdown-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="nav-dropdown" id="nav-franchises-menu" role="menu" aria-labelledby="nav-franchises-btn">
+            <a href="/nos-franchises/thaizone/" class="nav-dropdown-link" role="menuitem">
+              <em class="nav-franchise-name" data-brand="thaizone">Thaïzone</em>
+            </a>
+            <a href="/nos-franchises/yuzu-sushi/" class="nav-dropdown-link" role="menuitem">
+              <em class="nav-franchise-name" data-brand="yuzu">Yuzu Sushi</em>
+            </a>
+          </div>
+        </div>
+        <a href="/realisations/" class="nav-link active" aria-current="page">Réalisations</a>
+        <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
+        <a href="/carrieres/" class="nav-link">Carrières</a>
+        <a href="/#franchises" class="nav-cta">Nos Succursales</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <img id="hero-bg-img" src="../brand_assets/kitchen_team.jpg" alt="" aria-hidden="true">
+    <div class="hero-inner">
+      <p class="hero-eyebrow fade-up">Nos Réalisations</p>
+      <h1 class="hero-h1 serif fade-up d1">
+        Des actions qui<br>marquent les <em>esprits</em>.
+      </h1>
+      <p class="hero-sub fade-up d2">
+        Au-delà de la restauration, MKG Gestion s'engage concrètement dans sa communauté — par des gestes simples, sincères et durables.
+      </p>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span class="scroll-label">Défiler</span>
+    </div>
+  </section>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <section id="timeline">
+
+    <div class="timeline-header">
+      <p class="eyebrow fade-up" style="margin-bottom:20px;">Chronologie</p>
+      <h2 class="serif fade-up d1" style="font-size:clamp(32px,3.6vw,52px); line-height:1.1; font-weight:400; letter-spacing:-0.025em; max-width:560px;">
+        Chaque année, de nouveaux <em>chapitres</em>.
+      </h2>
+    </div>
+
+    <div class="timeline-track">
+
+      <!-- ══ 2023 ══ -->
+      <div class="timeline-year fade-up">
+        <span class="year-num-ghost" aria-hidden="true">2023</span>
+        <div class="year-label-wrap"><span class="year-label">2023</span></div>
+      </div>
+
+      <!-- Entry 1 — Noël · entry-left: images left, text right -->
+      <div class="timeline-entry entry-left fade-up">
+        <div class="entry-images three-up">
+          <img class="photo-main" src="https://placehold.co/520x480/1e1810/2e2218" alt="Distribution de repas de Noël — MKG Gestion">
+          <img src="https://placehold.co/320x236/1a1612/2a201a" alt="Bénévoles MKG lors du repas de Noël">
+          <img src="https://placehold.co/320x236/161210/24190f" alt="Refuge de Montréal partenaire MKG">
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-text">
+          <p class="entry-eyebrow">Communauté · Noël 2023</p>
+          <h3 class="entry-title">Nourrir ceux qui en ont <em>besoin</em>.</h3>
+          <p class="entry-subtitle">200 repas chauds distribués lors des fêtes de Noël au refuge de la Maison du Père.</p>
+          <p class="entry-desc">Nos équipes ont cuisiné et servi toute la journée aux côtés des bénévoles pour offrir un repas digne de ce nom à ceux qui en avaient le plus besoin.</p>
+        </div>
+      </div>
+
+      <!-- Entry 2 — 10 établissements · entry-right: text left, images right -->
+      <div class="timeline-entry entry-right fade-up">
+        <div class="entry-text">
+          <p class="entry-eyebrow">Croissance · 2023</p>
+          <h3 class="entry-title">Cap des <em>10 succursales</em> franchisées.</h3>
+          <p class="entry-subtitle">Un jalon majeur : 10 établissements actifs au Québec sous gestion MKG.</p>
+          <p class="entry-desc">Ce cap consolide notre position de groupe franchisé de référence au sein des réseaux Thaïzone et Yuzu Sushi, avec une présence dans plusieurs régions du Québec.</p>
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-images one-up">
+          <img src="https://placehold.co/720x480/141820/1e2030" alt="10e succursale MKG Gestion">
+        </div>
+      </div>
+
+      <!-- Entry 3 — Réduction déchets · entry-left: images left, text right -->
+      <div class="timeline-entry entry-left fade-up">
+        <div class="entry-images two-up">
+          <img src="https://placehold.co/400x380/14181a/1e2428" alt="Programme compostage MKG Gestion">
+          <img src="https://placehold.co/400x380/121814/1c2018" alt="Redistribution alimentaire MKG">
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-text">
+          <p class="entry-eyebrow">Durabilité · 2023</p>
+          <h3 class="entry-title">Réduction des <em>déchets</em> de 30&thinsp;%.</h3>
+          <p class="entry-subtitle">Programme de compostage et redistribution alimentaire à l'échelle de l'ensemble du réseau.</p>
+          <p class="entry-desc">En moins d'un an, nos succursales ont réduit leurs déchets alimentaires de 30 % grâce à des partenariats avec des banques alimentaires locales et un suivi rigoureux.</p>
+        </div>
+      </div>
+
+      <!-- ══ 2022 ══ -->
+      <div class="timeline-year fade-up">
+        <span class="year-num-ghost" aria-hidden="true">2022</span>
+        <div class="year-label-wrap"><span class="year-label">2022</span></div>
+      </div>
+
+      <!-- Entry 4 — Insertion professionnelle · entry-right: text left, images right -->
+      <div class="timeline-entry entry-right fade-up">
+        <div class="entry-text">
+          <p class="entry-eyebrow">Jeunesse · 2022</p>
+          <h3 class="entry-title">Programme d'insertion <em>professionnelle</em>.</h3>
+          <p class="entry-subtitle">40 jeunes de 18 à 25 ans formés et intégrés dans nos équipes en 2022.</p>
+          <p class="entry-desc">Un programme structuré et bienveillant conçu pour offrir une première vraie expérience en restauration — avec encadrement, formation pratique et perspectives d'avancement réelles.</p>
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-images three-up">
+          <img class="photo-main" src="https://placehold.co/520x480/181410/28201c" alt="Jeunes en formation MKG Gestion">
+          <img src="https://placehold.co/320x236/141210/20181a" alt="Programme d'insertion professionnelle MKG">
+          <img src="https://placehold.co/320x236/161410/221c14" alt="Équipe jeunes MKG Gestion Montréal">
+        </div>
+      </div>
+
+      <!-- Entry 5 — Fournisseurs locaux · entry-left: images left, text right -->
+      <div class="timeline-entry entry-left fade-up">
+        <div class="entry-images two-up">
+          <img src="https://placehold.co/400x380/1a1810/2a2018" alt="Fournisseur local partenaire MKG">
+          <img src="https://placehold.co/400x380/181614/28221c" alt="Produits locaux MKG Gestion">
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-text">
+          <p class="entry-eyebrow">Partenariats · 2022</p>
+          <h3 class="entry-title">8 fournisseurs <em>locaux</em> intégrés.</h3>
+          <p class="entry-subtitle">Partenariats formalisés avec 8 producteurs québécois pour réduire notre empreinte carbone.</p>
+          <p class="entry-desc">En privilégiant les circuits courts et les fournisseurs de proximité, nous soutenons l'économie locale et améliorons la traçabilité de nos produits dans tous nos établissements.</p>
+        </div>
+      </div>
+
+      <!-- ══ 2021 ══ -->
+      <div class="timeline-year fade-up">
+        <span class="year-num-ghost" aria-hidden="true">2021</span>
+        <div class="year-label-wrap"><span class="year-label">2021</span></div>
+      </div>
+
+      <!-- Entry 6 — Yuzu Sushi · entry-right: text left, images right -->
+      <div class="timeline-entry entry-right fade-up">
+        <div class="entry-text">
+          <p class="entry-eyebrow">Expansion · 2021</p>
+          <h3 class="entry-title">Première succursale <em>Yuzu Sushi</em>.</h3>
+          <p class="entry-subtitle">L'intégration d'une deuxième franchise de prestige dans notre portefeuille de gestion.</p>
+          <p class="entry-desc">Une étape décisive dans la diversification de MKG Gestion, marquant l'ouverture d'un nouveau chapitre avec une marque reconnue pour la qualité de ses produits et l'expérience de ses restaurants.</p>
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-images one-up">
+          <img src="https://placehold.co/720x480/131618/1e2228" alt="Première succursale Yuzu Sushi sous MKG Gestion">
+        </div>
+      </div>
+
+      <!-- ══ 2020 ══ -->
+      <div class="timeline-year fade-up">
+        <span class="year-num-ghost" aria-hidden="true">2020</span>
+        <div class="year-label-wrap"><span class="year-label">2020</span></div>
+      </div>
+
+      <!-- Entry 7 — Fondation · entry-left: images left, text right -->
+      <div class="timeline-entry entry-left fade-up">
+        <div class="entry-images one-up">
+          <img src="https://placehold.co/720x480/1e1a12/2e2418" alt="Fondation MKG Gestion — Max Kirchbach">
+        </div>
+        <div class="entry-dot-zone"><div class="entry-dot"></div></div>
+        <div class="entry-text">
+          <p class="entry-eyebrow">Fondation · 2020</p>
+          <h3 class="entry-title">La naissance de <em>MKG Gestion</em>.</h3>
+          <p class="entry-subtitle">Fondé en 2020 par Max Kirchbach avec une vision claire de la restauration franchisée au Québec.</p>
+          <p class="entry-desc">De l'ambition à la réalité : MKG Gestion est né d'une conviction profonde que l'excellence opérationnelle et la passion culinaire peuvent coexister au quotidien dans chacun de nos établissements.</p>
+        </div>
+      </div>
+
+    </div><!-- .timeline-track -->
+  </section>
+
+  <!-- ═══ CTA STRIP ═══ -->
+  <section id="cta-strip">
+    <div class="cta-strip-inner fade-up">
+      <p class="cta-strip-label">Rejoindre l'équipe</p>
+      <h2 class="cta-strip-heading serif">
+        Envie de contribuer à notre <em>mission</em>&nbsp;?
+      </h2>
+      <a href="/carrieres/" class="cta-strip-link">Voir nos offres d'emploi</a>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-top" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:64px; flex-wrap:wrap; gap:48px;">
+        <img src="../brand_assets/MKG Logo.png" alt="MKG Gestion" style="height:56px; width:auto; filter:brightness(0);">
+        <div class="footer-cols" style="display:flex; gap:72px; flex-wrap:wrap;">
+          <div>
+            <p class="footer-col-title">Nos franchises</p>
+            <a href="/nos-franchises/" class="footer-link">Nos Franchises</a>
+            <a href="/nos-franchises/thaizone/" class="footer-link">Thaïzone</a>
+            <a href="/nos-franchises/yuzu-sushi/" class="footer-link">Yuzu Sushi</a>
+          </div>
+          <div>
+            <p class="footer-col-title">Entreprise</p>
+            <a href="/" class="footer-link">Accueil</a>
+            <a href="/#valeurs" class="footer-link">Nos valeurs</a>
+            <a href="/#engagement" class="footer-link">Engagement</a>
+            <a href="/realisations/" class="footer-link" style="color:#111;">Réalisations</a>
+            <a href="/carrieres/" class="footer-link">Carrières</a>
+          </div>
+        </div>
+        <div>
+          <p class="footer-col-title">Nous suivre</p>
+          <div style="display:flex; gap:12px; margin-top:4px;">
+            <a href="#" class="social-btn" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.8" fill="#111" stroke="none"/>
+              </svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid rgba(0,0,0,0.07); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <p style="font-size:13px; color:#aaa; font-weight:300;">© 2025 MKG Gestion. Tous droits réservés.</p>
+        <div style="display:flex; gap:32px;">
+          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
+            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Mentions légales</a>
+          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
+            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Politique de confidentialité</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Nav compact on scroll ── */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('compact', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ── Franchise dropdown ── */
+    (function() {
+      const item = document.getElementById('nav-franchises-item');
+      const btn  = document.getElementById('nav-franchises-btn');
+      const menu = document.getElementById('nav-franchises-menu');
+      if (!item || !btn || !menu) return;
+      item.addEventListener('mouseenter', () => btn.setAttribute('aria-expanded', 'true'));
+      item.addEventListener('mouseleave', () => btn.setAttribute('aria-expanded', 'false'));
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        menu.classList.toggle('open', !open);
+      });
+      item.addEventListener('keydown', e => { if (e.key === 'Escape') { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); btn.focus(); } });
+      document.addEventListener('click', e => { if (!item.contains(e.target)) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); } });
+    })();
+
+    /* ── Scroll fade-in ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    /* Hero elements visible immediately */
+    window.addEventListener('load', () => {
+      document.querySelectorAll('#hero .fade-up').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 100);
+      });
+    });
+  </script>
+</body>
+</html>

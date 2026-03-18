@@ -159,6 +159,15 @@
       backdrop-filter: blur(14px);
       z-index: 300;
     }
+    .nav-dropdown::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 0;
+      right: 0;
+      height: 14px;
+    }
+    .nav-item:hover .nav-dropdown,
     .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
     .nav-dropdown-link {
       display: flex; align-items: center; gap: 10px;
@@ -171,7 +180,9 @@
       white-space: nowrap;
     }
     .nav-dropdown-link:hover { color: #111; background: rgba(0,0,0,0.04); }
-    .nav-dropdown-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; opacity: 0.9; }
+    .nav-franchise-name { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; font-weight: 400; }
+    .nav-franchise-name[data-brand="thaizone"] { color: #E91E8C; }
+    .nav-franchise-name[data-brand="yuzu"]     { color: #D4A547; }
 
     /* ─── Eyebrow ─── */
     .eyebrow {
@@ -553,13 +564,15 @@
           </button>
           <div class="nav-dropdown" id="nav-franchises-menu" role="menu" aria-labelledby="nav-franchises-btn">
             <a href="/nos-franchises/thaizone/" class="nav-dropdown-link" role="menuitem">
-              <span class="nav-dropdown-dot" style="background:#E91E8C;"></span>Thaïzone
+              <em class="nav-franchise-name" data-brand="thaizone">Thaïzone</em>
             </a>
             <a href="/nos-franchises/yuzu-sushi/" class="nav-dropdown-link" role="menuitem">
-              <span class="nav-dropdown-dot" style="background:#D4A547;"></span>Yuzu Sushi
+              <em class="nav-franchise-name" data-brand="yuzu">Yuzu Sushi</em>
             </a>
           </div>
         </div>
+        <a href="/realisations/" class="nav-link">Réalisations</a>
+        <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link active" aria-current="page">Carrières</a>
         <a href="#offres" class="nav-cta">Postuler</a>
       </div>
@@ -881,13 +894,16 @@
       const btn  = document.getElementById('nav-franchises-btn');
       const menu = document.getElementById('nav-franchises-menu');
       if (!item || !btn || !menu) return;
-      function open()  { btn.setAttribute('aria-expanded','true');  menu.classList.add('open'); }
-      function close() { btn.setAttribute('aria-expanded','false'); menu.classList.remove('open'); }
-      btn.addEventListener('click', e => { e.stopPropagation(); btn.getAttribute('aria-expanded')==='true' ? close() : open(); });
-      item.addEventListener('mouseenter', open);
-      item.addEventListener('mouseleave', close);
-      item.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
-      document.addEventListener('click', e => { if (!item.contains(e.target)) close(); });
+      item.addEventListener('mouseenter', () => btn.setAttribute('aria-expanded', 'true'));
+      item.addEventListener('mouseleave', () => btn.setAttribute('aria-expanded', 'false'));
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        menu.classList.toggle('open', !open);
+      });
+      item.addEventListener('keydown', e => { if (e.key === 'Escape') { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); btn.focus(); } });
+      document.addEventListener('click', e => { if (!item.contains(e.target)) { btn.setAttribute('aria-expanded', 'false'); menu.classList.remove('open'); } });
     })();
 
     /* ── FAQ accordion ── */
