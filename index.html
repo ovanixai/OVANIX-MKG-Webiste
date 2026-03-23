@@ -537,7 +537,8 @@
     #footer {
       background: #fff;
       padding: 72px 64px 40px;
-      border-top: 1px solid rgba(0,0,0,0.07);
+      position: relative;
+      overflow: hidden;
     }
     .footer-inner { max-width: 1360px; margin: 0 auto; }
     .footer-link {
@@ -658,14 +659,97 @@
       .values-grid { grid-template-columns: 1fr !important; }
       .nav-links { gap: 16px; }
     }
+
+    /* ─── PRELOADER ─── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: #111111;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transition: background-color 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #preloader.deepening {
+      background: #050505;
+    }
+    #preloader.exit {
+      transform: translateY(-100%);
+      transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    #preloader-logo {
+      width: clamp(200px, 28vw, 360px);
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+      filter: drop-shadow(0 1px 8px rgba(212, 165, 71, 0.3))
+              drop-shadow(0 0px 1px rgba(255, 235, 180, 0.6));
+    }
+    #preloader-logo.visible {
+      clip-path: inset(0 0% 0 0);
+    }
   </style>
 </head>
 <body>
 
+  <!-- ─── PRELOADER ─── -->
+  <div id="preloader" aria-hidden="true">
+    <img id="preloader-logo" src="brand_assets/logos/MKG Logo.png" alt="MKG Gestion" />
+  </div>
+
+  <script>
+    /* Run immediately — before DOM fully parses */
+    (function () {
+      var preloader = document.getElementById('preloader');
+      var logo      = document.getElementById('preloader-logo');
+      if (!preloader || !logo) return;
+
+      var hasPlayed = sessionStorage.getItem('mkgPreloaderPlayed');
+
+      if (hasPlayed) {
+        /* Returning visitor within same session — skip entirely */
+        preloader.remove();
+        window._preloaderSkipped = true;
+        return;
+      }
+
+      /* Lock scroll while loader is active */
+      document.body.style.overflow = 'hidden';
+
+      /* Phase 1: Background deepens + logo wipes in left-to-right */
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          preloader.classList.add('deepening'); /* background shift: #1c1c2e → #07101f */
+          logo.classList.add('visible');        /* clip-path wipe: 0.85s */
+        });
+      });
+
+      /* Phase 3: Slide overlay up smoothly (0.9s)
+         Timeline: 0.85s wipe + 1.35s hold = 2.2s */
+      setTimeout(function () {
+        preloader.classList.add('exit');  /* translateY(-100%), 0.9s */
+
+        /* Synchronize hero entrance with slide start */
+        if (typeof window.triggerHeroEntrance === 'function') {
+          window.triggerHeroEntrance();
+        }
+
+        /* Cleanup after slide completes (0.9s) */
+        setTimeout(function () {
+          preloader.remove();
+          document.body.style.overflow = '';
+          sessionStorage.setItem('mkgPreloaderPlayed', '1');
+        }, 900);
+      }, 2200);
+    })();
+  </script>
+
+
   <!-- ═══ NAVIGATION ═══ -->
   <nav id="main-nav">
     <div class="nav-inner">
-      <a href="#"><img src="brand_assets/MKG Logo.png" alt="MKG Gestion" class="nav-logo"></a>
+      <a href="#"><img src="brand_assets/logos/MKG Logo.png" alt="MKG Gestion" class="nav-logo"></a>
       <div class="nav-links">
         <div class="nav-item" id="nav-franchises-item">
           <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false"
@@ -695,7 +779,7 @@
   <!-- ═══ HERO ═══ -->
   <section id="hero">
     <video id="hero-video"
-      src="brand_assets/sushi video test.mp4"
+      src="brand_assets/videos/sushi video test.mp4"
       autoplay muted loop playsinline
       poster="https://placehold.co/1920x1080/111111/111111">
     </video>
@@ -774,7 +858,7 @@
       <!-- Right: Founder portrait -->
       <div id="quote-img-col">
         <img id="quote-founder-img"
-          src="brand_assets/max image.jpg"
+          src="brand_assets/AI_images/max image.jpg"
           alt="Portrait du fondateur de MKG Gestion dans un restaurant Thaïzone, illustrant l'engagement communautaire et le leadership en restauration au Québec."
           loading="lazy"
           width="420"
@@ -849,7 +933,7 @@
         <a href="/nos-franchises/thaizone/" style="text-decoration:none; color:inherit; display:block;">
           <div class="franchise-card fade-up">
             <!-- Placeholder for Thaïzone storefront image -->
-            <img src="brand_assets/thaizone logo vrai.png" alt="Thaïzone — Cuisine thaïlandaise urbaine" style="object-fit:contain; background:#fff; padding: 60px 80px;">
+            <img src="brand_assets/logos/thaizone logo vrai.png" alt="Thaïzone — Cuisine thaïlandaise urbaine" style="object-fit:contain; background:#fff; padding: 60px 80px;">
             <div class="franchise-overlay">
               <h3 class="franchise-brand">Thaïzone</h3>
               <p class="franchise-tagline">Une cuisine thaïlandaise urbaine, audacieuse, fraîche et rapide.</p>
@@ -862,7 +946,7 @@
         <a href="/nos-franchises/yuzu-sushi/" style="text-decoration:none; color:inherit; display:block;">
           <div class="franchise-card fade-up d1">
             <!-- Placeholder for Yuzu Sushi storefront image -->
-            <img src="brand_assets/yuzu suhi logo.png" alt="Yuzu Sushi — Sushis premium créatifs" style="object-fit:contain; background:#fff;">
+            <img src="brand_assets/logos/yuzu suhi logo.png" alt="Yuzu Sushi — Sushis premium créatifs" style="object-fit:contain; background:#fff;">
             <div class="franchise-overlay">
               <h3 class="franchise-brand">Yuzu Sushi</h3>
               <p class="franchise-tagline">Des sushis premium raffinés, créatifs et de haute qualité.</p>
@@ -930,24 +1014,16 @@
 
   <!-- ═══ FOOTER ═══ -->
   <footer id="footer">
+    <div aria-hidden="true" style="position:absolute;bottom:-0.12em;left:-0.02em;font-size:clamp(100px,16vw,240px);font-weight:900;letter-spacing:-0.04em;line-height:1;white-space:nowrap;pointer-events:none;user-select:none;background:linear-gradient(to bottom,rgba(0,0,0,0.07) 0%,rgba(0,0,0,0.03) 55%,rgba(0,0,0,0) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">MKG GESTION</div>
     <div class="footer-inner">
-      <div class="footer-top" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:64px; flex-wrap:wrap; gap:48px;">
-        <img src="brand_assets/MKG Logo.png" alt="MKG Gestion" style="height:56px; width:auto; filter:brightness(0);">
-        <div class="footer-cols" style="display:flex; gap:72px; flex-wrap:wrap;">
-          <div>
-            <p class="footer-col-title">Nos franchises</p>
-            <a href="#franchises" class="footer-link">Nos Franchises</a>
-            <a href="/nos-franchises/thaizone/" class="footer-link">Thaïzone</a>
-            <a href="/nos-franchises/yuzu-sushi/" class="footer-link">Yuzu Sushi</a>
-          </div>
-          <div>
-            <p class="footer-col-title">Entreprise</p>
-            <a href="#about" class="footer-link">À propos</a>
-            <a href="#valeurs" class="footer-link">Nos valeurs</a>
-            <a href="#engagement" class="footer-link">Engagement</a>
-            <a href="#" class="footer-link">Carrières</a>
-          </div>
-        </div>
+      <div class="footer-top" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:160px; flex-wrap:wrap; gap:32px;">
+        <nav style="display:flex; align-items:center; gap:0; flex-wrap:wrap;">
+          <a href="/nos-franchises/thaizone/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Thaïzone</a>
+          <a href="/nos-franchises/yuzu-sushi/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Yuzu Sushi</a>
+          <a href="/realisations/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Réalisations</a>
+          <a href="/notre-equipe/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Notre Équipe</a>
+          <a href="/carrieres/" class="footer-link" style="line-height:1; display:inline;">Carrières</a>
+        </nav>
         <div>
           <p class="footer-col-title">Nous suivre</p>
           <div style="display:flex; gap:12px; margin-top:4px;">
@@ -969,14 +1045,8 @@
         </div>
       </div>
 
-      <div style="border-top:1px solid rgba(0,0,0,0.07); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-        <p style="font-size:13px; color:#aaa; font-weight:300;">© 2025 MKG Gestion. Tous droits réservés.</p>
-        <div style="display:flex; gap:32px;">
-          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
-            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Mentions légales</a>
-          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
-            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Politique de confidentialité</a>
-        </div>
+      <div style="padding-top:28px; text-align:center;">
+        <p style="font-size:11px; color:#bbb; font-weight:300; letter-spacing:0.04em;">© 2025 MKG Gestion. Tous droits réservés.</p>
       </div>
     </div>
   </footer>
@@ -1024,11 +1094,20 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
     document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
 
-    /* Hero elements visible immediately after load */
-    window.addEventListener('load', () => {
-      document.querySelectorAll('#hero .fade-up').forEach(el => {
-        setTimeout(() => el.classList.add('visible'), 100);
+    /* Hero entrance — triggered by preloader on first visit,
+       or immediately on returning visits (preloader skipped) */
+    window.triggerHeroEntrance = function () {
+      document.querySelectorAll('#hero .fade-up').forEach(function (el) {
+        el.classList.add('visible');
       });
+    };
+
+    window.addEventListener('load', function () {
+      if (window._preloaderSkipped) {
+        /* Returning visitor: fire hero entrance normally */
+        setTimeout(window.triggerHeroEntrance, 100);
+      }
+      /* First visit: preloader inline script calls triggerHeroEntrance on exit */
     });
   </script>
 </body>

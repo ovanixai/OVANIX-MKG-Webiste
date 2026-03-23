@@ -484,7 +484,8 @@
     #footer {
       background: #fff;
       padding: 72px 64px 40px;
-      border-top: 1px solid rgba(0,0,0,0.07);
+      position: relative;
+      overflow: hidden;
     }
     .footer-inner { max-width: 1360px; margin: 0 auto; }
     .footer-link {
@@ -551,7 +552,7 @@
   <!-- ═══ NAVIGATION ═══ -->
   <nav id="main-nav">
     <div class="nav-inner">
-      <a href="/"><img src="../brand_assets/MKG Logo.png" alt="MKG Gestion" class="nav-logo"></a>
+      <a href="/"><img src="../brand_assets/logos/MKG Logo.png" alt="MKG Gestion" class="nav-logo"></a>
       <div class="nav-links">
         <a href="/" class="nav-link">Accueil</a>
         <div class="nav-item" id="nav-franchises-item">
@@ -603,7 +604,7 @@
         </div>
         <div class="hero-img-wrap fade-up d3">
           <img
-            src="../brand_assets/carriere section 1 image.avif"
+            src="../brand_assets/AI_images/carrières_hero section.avif"
             alt="Équipe MKG Gestion en plein travail collaboratif dans un restaurant Thaïzone au Québec"
             width="740" height="580">
         </div>
@@ -830,24 +831,16 @@
 
   <!-- ═══ FOOTER ═══ -->
   <footer id="footer">
+    <div aria-hidden="true" style="position:absolute;bottom:-0.12em;left:-0.02em;font-size:clamp(100px,16vw,240px);font-weight:900;letter-spacing:-0.04em;line-height:1;white-space:nowrap;pointer-events:none;user-select:none;background:linear-gradient(to bottom,rgba(0,0,0,0.07) 0%,rgba(0,0,0,0.03) 55%,rgba(0,0,0,0) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">MKG GESTION</div>
     <div class="footer-inner">
-      <div class="footer-top" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:64px; flex-wrap:wrap; gap:48px;">
-        <img src="../brand_assets/MKG Logo.png" alt="MKG Gestion" style="height:56px; width:auto; filter:brightness(0);">
-        <div class="footer-cols" style="display:flex; gap:72px; flex-wrap:wrap;">
-          <div>
-            <p class="footer-col-title">Nos franchises</p>
-            <a href="/nos-franchises/" class="footer-link">Nos Franchises</a>
-            <a href="/nos-franchises/thaizone/" class="footer-link">Thaïzone</a>
-            <a href="/nos-franchises/yuzu-sushi/" class="footer-link">Yuzu Sushi</a>
-          </div>
-          <div>
-            <p class="footer-col-title">Entreprise</p>
-            <a href="/" class="footer-link">Accueil</a>
-            <a href="/#valeurs" class="footer-link">Nos valeurs</a>
-            <a href="/#engagement" class="footer-link">Engagement</a>
-            <a href="/carrieres/" class="footer-link" style="color:#111;">Carrières</a>
-          </div>
-        </div>
+      <div class="footer-top" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:160px; flex-wrap:wrap; gap:32px;">
+        <nav style="display:flex; align-items:center; gap:0; flex-wrap:wrap;">
+          <a href="/nos-franchises/thaizone/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Thaïzone</a>
+          <a href="/nos-franchises/yuzu-sushi/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Yuzu Sushi</a>
+          <a href="/realisations/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Réalisations</a>
+          <a href="/notre-equipe/" class="footer-link" style="line-height:1; display:inline; padding-right:20px; margin-right:20px; border-right:1px solid rgba(0,0,0,0.12);">Notre Équipe</a>
+          <a href="/carrieres/" class="footer-link" style="line-height:1; display:inline;">Carrières</a>
+        </nav>
         <div>
           <p class="footer-col-title">Nous suivre</p>
           <div style="display:flex; gap:12px; margin-top:4px;">
@@ -868,15 +861,8 @@
           </div>
         </div>
       </div>
-
-      <div style="border-top:1px solid rgba(0,0,0,0.07); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-        <p style="font-size:13px; color:#aaa; font-weight:300;">© 2025 MKG Gestion. Tous droits réservés.</p>
-        <div style="display:flex; gap:32px;">
-          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
-            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Mentions légales</a>
-          <a href="#" style="font-size:13px; color:#aaa; text-decoration:none; transition:color 0.2s; font-weight:300;"
-            onmouseover="this.style.color='#111'" onmouseout="this.style.color='#aaa'">Politique de confidentialité</a>
-        </div>
+      <div style="position:absolute; bottom:24px; left:0; right:0; text-align:center;">
+        <p style="font-size:11px; color:#bbb; font-weight:300; letter-spacing:0.04em;">© 2025 MKG Gestion. Tous droits réservés.</p>
       </div>
     </div>
   </footer>

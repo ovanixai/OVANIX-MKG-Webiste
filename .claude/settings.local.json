@@ -5,7 +5,11 @@
       "Bash(node screenshot-section.mjs http://localhost:3000 0 hero)",
       "Bash(node screenshot-section.mjs http://localhost:3000 900 about)",
       "Bash(node screenshot-section.mjs http://localhost:3000 1900 quote)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(node screenshot.mjs http://localhost:3000 preloader)",
+      "Bash(node screenshot.mjs http://localhost:3000 preloader-v3)",
+      "Bash(node screenshot.mjs http://localhost:3000 footer)",
+      "Bash(node screenshot.mjs http://localhost:3000 footer4)"
     ]
   }
 }
