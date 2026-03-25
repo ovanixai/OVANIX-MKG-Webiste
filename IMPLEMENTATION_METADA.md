@@ -32,14 +32,14 @@ Add the following to the `<head>` of all pages:
 ```html
 <!-- Open Graph / Facebook / LinkedIn -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://mkg-gestion.com/">
+<meta property="og:url" content="https://ovanix-mkg-webiste.vercel.app/">
 <meta property="og:title" content="MKG Gestion — Restauration · Franchise · Québec">
 <meta property="og:description" content="Expertise et passion dans la gestion de franchises renommées au Québec.">
 <meta property="og:image" content="brand_assets/website_improvement/og-image.png">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://mkg-gestion.com/">
+<meta name="twitter:url" content="https://ovanix-mkg-webiste.vercel.app/">
 <meta name="twitter:title" content="MKG Gestion — Restauration · Franchise · Québec">
 <meta name="twitter:description" content="Expertise et passion dans la gestion de franchises renommées au Québec.">
 <meta name="twitter:image" content="brand_assets/website_improvement/og-image.png">
