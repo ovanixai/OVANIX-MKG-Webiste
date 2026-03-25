@@ -52,6 +52,12 @@
 - When the work looks good, you will explicitly say to commit — only then should anything be staged, committed, and pushed.
 - GitHub is connected to Vercel and auto-deploys on every push. Pushing prematurely = deploying prematurely.
 
+## Documentation & Walkthroughs
+- **Always save walkthroughs locally**: At the end of every major task, save the session's `walkthrough.md` to `docs/walkthroughs/`.
+- **Naming Convention**: Use descriptive names like `docs/walkthroughs/feature-name.md`.
+- **Asset Preservation**: Copy any relevant verification screenshots or recordings to `docs/walkthroughs/assets/` and use relative links within the markdown file.
+- **Commit Documentation**: Always include these documentation files in your final commit for the task.
+
 ## Skills
 
 ### `/seo-audit [URL or file/folder path]`
