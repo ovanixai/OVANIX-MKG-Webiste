@@ -269,18 +269,47 @@
     #quote-bg {
       position: absolute;
       inset: 0;
+      z-index: 0;
       background: linear-gradient(120deg, #181410 0%, #1e1a12 50%, #14130e 100%);
     }
-    #quote-bg::after {
-      content: '';
+    #quote-bg::after { display: none; }
+    #quote-orb {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(195,152,72,0.26) 0%,
+        rgba(155,112,44,0.12) 36%,
+        transparent 66%
+      );
+      animation: orb-breathe 6s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes orb-breathe {
+      0%   { transform: translateY(-50%) scale(1);    opacity: 0.75; }
+      50%  { transform: translateY(-50%) scale(1.13); opacity: 1;    }
+      100% { transform: translateY(-50%) scale(1);    opacity: 0.75; }
+    }
+    #quote-grain {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(180,140,70,0.1) 0%, transparent 70%);
+      z-index: 1;
+      opacity: 0.04;
+      pointer-events: none;
+      filter: url(#grain-filter);
+      background: rgba(200,162,78,0.04);
     }
-    #quote-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.25); }
+    #quote-overlay { position: absolute; inset: 0; z-index: 2; background: rgba(0,0,0,0.22); }
     #quote-inner {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       width: 100%;
       max-width: 1360px;
       margin: 0 auto;
@@ -292,6 +321,67 @@
     #quote-text-col {
       flex: 1 1 0;
       min-width: 0;
+      position: relative;
+    }
+    #quote-deco-mark {
+      position: absolute;
+      top: -52px;
+      left: -44px;
+      width: 260px;
+      height: 230px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 1.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 1.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    #quote-deco-mark.visible { opacity: 1; transform: translateY(0); }
+    #quote-blockquote {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+    }
+    #quote-attribution {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 36px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.55s,
+                  transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.55s;
+    }
+    #quote-attribution.visible { opacity: 1; transform: translateY(0); }
+    .attr-rule {
+      display: block;
+      flex-shrink: 0;
+      width: 36px;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(180,140,70,0.6) 32%,
+        #EDCC7A 50%,
+        rgba(180,140,70,0.6) 68%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+    #quote-attribution.shimmer .attr-rule {
+      animation: shimmer-sweep 1.4s cubic-bezier(0.4,0,0.2,1) 0.85s forwards;
+    }
+    @keyframes shimmer-sweep {
+      from { background-position: -100% 0; }
+      to   { background-position: 110% 0; }
+    }
+    .attr-text {
+      font-size: 11px;
+      letter-spacing: 0.21em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      font-weight: 400;
     }
     #quote-img-col {
       flex: 0 0 420px;
@@ -300,19 +390,38 @@
       display: flex;
       align-items: stretch;
     }
-    #quote-founder-img {
+    #quote-portrait-frame {
+      position: relative;
+      overflow: hidden;
       width: 100%;
       height: 480px;
+    }
+    #quote-portrait-frame::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 52%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(185,146,68,0.55));
+      z-index: 3;
+      pointer-events: none;
+    }
+    #quote-founder-img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       object-position: center top;
       display: block;
+      transform-origin: center center;
+      will-change: transform;
     }
     #quote-img-col::before {
       content: '';
       position: absolute;
       inset: 0;
       background: linear-gradient(to right, #181410 0%, transparent 40%);
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
     }
     #quote-img-col::after {
@@ -320,7 +429,7 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(to top, #14130e 0%, transparent 30%);
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
     }
     @media (max-width: 768px) {
@@ -334,13 +443,25 @@
         width: 100%;
         align-self: auto;
       }
-      #quote-founder-img {
-        height: 280px;
-        width: 100%;
+      #quote-portrait-frame { height: 280px; }
+      #quote-text-col { text-align: center; }
+      #quote-deco-mark { width: 140px; height: 126px; top: -20px; left: -12px; }
+      #quote-orb {
+        right: -28%;
+        top: auto;
+        bottom: -12%;
+        transform: none;
+        width: 340px;
+        height: 340px;
+        animation: orb-breathe-mob 6s ease-in-out infinite;
       }
-      #quote-text-col {
-        text-align: center;
+      @keyframes orb-breathe-mob {
+        0%   { opacity: 0.75; transform: scale(1); }
+        50%  { opacity: 1;    transform: scale(1.13); }
+        100% { opacity: 0.75; transform: scale(1); }
       }
+      #quote-attribution { justify-content: center; }
+      .attr-rule { display: none; }
       #quote-img-col::before {
         background: linear-gradient(to bottom, transparent 60%, #181410 100%);
       }
@@ -486,11 +607,11 @@
     /* ─── Portfolio / Engagement grid ─── */
     .portfolio-grid {
       display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      grid-template-rows: auto auto;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 420px 420px;
       gap: 14px;
     }
-    .portfolio-grid .item-tall { grid-row: 1 / 3; }
+    .portfolio-grid .item-tall { grid-row: auto; }
     .port-item {
       position: relative;
       overflow: hidden;
@@ -693,6 +814,17 @@
 </head>
 <body>
 
+  <!-- Hidden SVG filters -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="grain-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.70" numOctaves="4" stitchTiles="stitch" result="noise"/>
+        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+        <feBlend in="SourceGraphic" in2="grayNoise" mode="overlay"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- ─── PRELOADER ─── -->
   <div id="preloader" aria-hidden="true">
     <img id="preloader-logo" src="brand_assets/logos/MKG Logo.png" alt="MKG Gestion" />
@@ -771,7 +903,7 @@
         <a href="/realisations/" class="nav-link">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link">Carrières</a>
-        <a href="#franchises" class="nav-cta">Nos Succursales</a>
+        <a href="/notre-equipe/#team" class="nav-cta">Contactez-nous</a>
       </div>
     </div>
   </nav>
@@ -841,28 +973,62 @@
   <!-- ═══ FULL-BLEED QUOTE ═══ -->
   <div id="quote-section">
     <div id="quote-bg"></div>
+    <div id="quote-orb"></div>
+    <div id="quote-grain"></div>
     <div id="quote-overlay"></div>
     <div id="quote-inner">
 
       <!-- Left: Quote text -->
       <div id="quote-text-col">
-        <blockquote class="serif fade-up"
-          style="font-size:clamp(26px,3.2vw,44px); line-height:1.32; font-weight:400; font-style:italic; color:#fff; opacity:0.95;">
+
+        <!-- Decorative giant quotation mark -->
+        <div id="quote-deco-mark" aria-hidden="true">
+          <svg viewBox="0 0 260 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="gold-q-grad" cx="36%" cy="28%" r="65%">
+                <stop offset="0%" stop-color="#D4AA48"/>
+                <stop offset="52%" stop-color="#9A6E20"/>
+                <stop offset="100%" stop-color="#4A2E08" stop-opacity="0.35"/>
+              </radialGradient>
+              <filter id="q-glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="14" in="SourceGraphic" result="blur"/>
+                <feFlood flood-color="#C9A030" flood-opacity="0.32" result="col"/>
+                <feComposite in="col" in2="blur" operator="in" result="glow"/>
+                <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <text x="6" y="208"
+              font-family="Georgia, 'Times New Roman', serif"
+              font-size="240"
+              fill="url(#gold-q-grad)"
+              filter="url(#q-glow)"
+              opacity="0.82"
+            >&#x201C;</text>
+          </svg>
+        </div>
+
+        <blockquote id="quote-blockquote" class="serif"
+          style="font-size:clamp(26px,3.2vw,44px); line-height:1.44; font-weight:400; font-style:italic; color:#fff; opacity:0.95; letter-spacing:-0.022em;">
           "Gérer un restaurant, c'est d'abord choisir d'être présent — pour l'équipe, pour le client, pour la communauté."
         </blockquote>
-        <p class="fade-up d1" style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-top:28px;">
-          — FONDATEUR, MAX KIRCHBACH
-        </p>
+
+        <div id="quote-attribution">
+          <span class="attr-rule"></span>
+          <span class="attr-text">Fondateur — Max Kirchbach</span>
+        </div>
+
       </div>
 
       <!-- Right: Founder portrait -->
       <div id="quote-img-col">
-        <img id="quote-founder-img"
-          src="brand_assets/AI_images/max image.jpg"
-          alt="Portrait du fondateur de MKG Gestion dans un restaurant Thaïzone, illustrant l'engagement communautaire et le leadership en restauration au Québec."
-          loading="lazy"
-          width="420"
-          height="480">
+        <div id="quote-portrait-frame">
+          <img id="quote-founder-img"
+            src="brand_assets/AI_images/max image.jpg"
+            alt="Portrait du fondateur de MKG Gestion dans un restaurant Thaïzone, illustrant l'engagement communautaire et le leadership en restauration au Québec."
+            loading="lazy"
+            width="420"
+            height="480">
+        </div>
       </div>
 
     </div>
@@ -962,46 +1128,49 @@
   <!-- ═══ ENGAGEMENT COMMUNAUTAIRE ═══ -->
   <section id="engagement" class="section">
     <div class="section-inner">
-      <div style="margin-bottom:64px;">
-        <p class="eyebrow fade-up" style="margin-bottom:22px;">Engagement communautaire</p>
-        <h2 class="serif fade-up d1" style="font-size:clamp(34px,4vw,56px); line-height:1.08; font-weight:400; letter-spacing:-0.025em; max-width:580px;">
+      <div style="margin-bottom:28px;">
+        <p class="eyebrow fade-up" style="margin-bottom:12px;">Engagement communautaire</p>
+        <h2 class="serif fade-up d1" style="font-size:clamp(24px,2.6vw,36px); line-height:1.08; font-weight:400; letter-spacing:-0.025em; max-width:580px;">
           Des franchises qui <em>s'impliquent</em>
         </h2>
       </div>
 
       <div class="portfolio-grid fade-up">
-        <!-- Tall item -->
-        <a href="/realisations/" class="port-item item-tall" style="min-height:560px; text-decoration:none;">
-          <!-- Placeholder for youth program image -->
-          <img src="https://placehold.co/680x680/1e1814/2e2420" alt="Programme Jeunesse MKG">
+        <a href="/realisations/" class="port-item" style="text-decoration:none;">
+          <img src="brand_assets/AI_images/integration_hero.jpg" alt="Programme Jeunesse MKG">
           <div class="port-overlay">
             <p class="port-caption-cat">Québec · Communauté</p>
             <h3 class="port-caption-title">Programme <em>Jeunesse</em></h3>
             <p class="port-caption-sub">Formation & insertion professionnelle</p>
           </div>
         </a>
-        <!-- Short items -->
-        <a href="/realisations/" class="port-item" style="min-height:270px; text-decoration:none;">
-          <!-- Placeholder for local partnerships image -->
-          <img src="https://placehold.co/500x320/141820/1e2030" alt="Partenariats locaux">
+        <a href="/realisations/" class="port-item" style="text-decoration:none;">
+          <img src="brand_assets/AI_images/quebec_local_farmer.jpg" alt="Partenariats locaux">
           <div class="port-overlay">
             <p class="port-caption-cat">Montréal</p>
             <h3 class="port-caption-title">Partenariats <em>locaux</em></h3>
             <p class="port-caption-sub">Fournisseurs du quartier & circuits courts</p>
           </div>
         </a>
-        <a href="/realisations/" class="port-item" style="min-height:270px; text-decoration:none;">
-          <!-- Placeholder for sustainability initiative image -->
-          <img src="https://placehold.co/500x320/181e14/222a1e" alt="Initiative durable">
+        <a href="/realisations/" class="port-item" style="text-decoration:none;">
+          <img src="brand_assets/AI_images/composting_waste_reduction.jpg" alt="Initiative durable">
           <div class="port-overlay">
             <p class="port-caption-cat">Laval</p>
             <h3 class="port-caption-title">Initiative <em>durable</em></h3>
             <p class="port-caption-sub">Réduction des déchets alimentaires · −30%</p>
           </div>
         </a>
+        <a href="/realisations/" class="port-item" style="text-decoration:none;">
+          <img src="brand_assets/AI_images/food_redistribution.jpg" alt="Redistribution alimentaire">
+          <div class="port-overlay">
+            <p class="port-caption-cat">Québec</p>
+            <h3 class="port-caption-title">Redistribution <em>alimentaire</em></h3>
+            <p class="port-caption-sub">Dons aux organismes communautaires</p>
+          </div>
+        </a>
       </div>
 
-      <div class="fade-up" style="margin-top:52px; text-align:center;">
+      <div class="fade-up" style="margin-top:24px; text-align:center;">
         <a href="/realisations/"
           style="font-size:12px; font-weight:400; letter-spacing:0.1em; text-transform:uppercase; color:#111; text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.3); padding-bottom:3px; transition:border-color 0.25s, opacity 0.25s;"
           onmouseover="this.style.borderColor='#111'; this.style.opacity=0.6"
@@ -1093,6 +1262,85 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
     document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    /* ── Quote section — premium effects ── */
+    (function () {
+      const section = document.getElementById('quote-section');
+      const bq      = document.getElementById('quote-blockquote');
+      const mark    = document.getElementById('quote-deco-mark');
+      const attr    = document.getElementById('quote-attribution');
+      if (!section || !bq) return;
+
+      /* Split blockquote text into individually animated word spans */
+      const raw     = bq.textContent.trim();
+      const words   = raw.split(/\s+/);
+      bq.textContent = '';
+      const isMob   = window.matchMedia('(max-width:768px)').matches;
+      const stagger = isMob ? 22 : 36;
+
+      words.forEach(function (word, i) {
+        var sp = document.createElement('span');
+        sp.textContent = word + '\u00A0';
+        sp.style.cssText =
+          'display:inline-block;' +
+          'opacity:0;' +
+          'transform:translateY(18px) skewY(1.6deg);' +
+          'transition:' +
+            'opacity 0.72s cubic-bezier(0.16,1,0.3,1) ' + (i * stagger) + 'ms,' +
+            'transform 0.72s cubic-bezier(0.16,1,0.3,1) ' + (i * stagger) + 'ms;' +
+          'will-change:transform,opacity;';
+        bq.appendChild(sp);
+      });
+
+      /* One-shot observer — fires when quote section enters viewport */
+      var qObs = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        qObs.disconnect();
+
+        /* Reveal decorative quote mark */
+        if (mark) mark.classList.add('visible');
+
+        /* Reveal + shimmer attribution */
+        if (attr) {
+          attr.classList.add('visible');
+          setTimeout(function () { attr.classList.add('shimmer'); }, 100);
+        }
+
+        /* Stagger-reveal each word */
+        setTimeout(function () {
+          bq.querySelectorAll('span').forEach(function (sp) {
+            sp.style.opacity   = '1';
+            sp.style.transform = 'translateY(0) skewY(0deg)';
+          });
+        }, 55);
+
+      }, { threshold: 0.16, rootMargin: '0px 0px -40px 0px' });
+
+      qObs.observe(section);
+
+      /* Portrait micro-parallax — desktop only */
+      if (!isMob) {
+        var img = document.getElementById('quote-founder-img');
+        if (img) {
+          var raf;
+          section.addEventListener('mousemove', function (e) {
+            if (raf) cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(function () {
+              var r  = section.getBoundingClientRect();
+              var cx = (e.clientX - r.left)  / r.width  - 0.5;
+              var cy = (e.clientY - r.top)   / r.height - 0.5;
+              img.style.transition = 'transform 0.55s cubic-bezier(0.16,1,0.3,1)';
+              img.style.transform  =
+                'translate(' + (cx * 9) + 'px,' + (cy * 6) + 'px) scale(1.03)';
+            });
+          }, { passive: true });
+          section.addEventListener('mouseleave', function () {
+            img.style.transition = 'transform 1.1s cubic-bezier(0.16,1,0.3,1)';
+            img.style.transform  = 'translate(0,0) scale(1)';
+          });
+        }
+      }
+    })();
 
     /* Hero entrance — triggered by preloader on first visit,
        or immediately on returning visits (preloader skipped) */

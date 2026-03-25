@@ -36,19 +36,27 @@
     .fade-up.d4 { transition-delay: 0.54s; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── Nav — always solid (subpage) ─── */
+    /* ─── Nav ─── */
     #main-nav {
       position: fixed;
       inset: 0 0 auto;
       z-index: 200;
-      padding: 18px 64px;
-      background: rgba(255,255,255,0.97);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.07);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: padding 0.4s ease;
+      padding: 28px 64px;
+      transition: background 0.5s ease, box-shadow 0.5s ease, padding 0.5s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
-    #main-nav.compact { padding: 12px 64px; }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    #main-nav.solid {
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 4px 24px rgba(0,0,0,0.05);
+      padding: 18px 64px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    #main-nav.solid .nav-link          { color: #111; }
+    #main-nav.solid .nav-dropdown-trigger { color: #111; }
+    #main-nav.solid .nav-cta           { color: #111; border-color: rgba(0,0,0,0.3); }
+    #main-nav.solid .nav-cta:hover     { background: #111; color: #fff; border-color: #111; }
+    #main-nav.solid .nav-logo          { filter: brightness(0); }
     .nav-inner {
       display: flex;
       align-items: center;
@@ -56,14 +64,14 @@
       max-width: 1360px;
       margin: 0 auto;
     }
-    .nav-logo { height: 56px; width: auto; filter: brightness(0); }
+    .nav-logo { height: 160px; width: auto; filter: brightness(0) invert(1); transition: filter 0.4s ease; }
     .nav-links { display: flex; gap: 40px; align-items: center; }
     .nav-link {
       font-size: 13px;
       font-weight: 400;
       letter-spacing: 0.03em;
       text-decoration: none;
-      color: #111;
+      color: rgba(255,255,255,0.85);
       transition: opacity 0.25s;
     }
     .nav-link:hover { opacity: 0.45; }
@@ -74,12 +82,12 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-decoration: none;
-      color: #111;
-      border: 1px solid rgba(0,0,0,0.3);
+      color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.45);
       padding: 9px 22px;
       transition: background 0.25s, border-color 0.25s, color 0.25s;
     }
-    .nav-cta:hover { background: #111; color: #fff; border-color: #111; }
+    .nav-cta:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.7); }
 
     /* Nav dropdown */
     .nav-item { position: relative; }
@@ -87,7 +95,7 @@
       background: none; border: none; cursor: pointer;
       display: inline-flex; align-items: center; gap: 5px; padding: 0;
       font-size: 13px; font-weight: 400; letter-spacing: 0.03em;
-      color: #111;
+      color: rgba(255,255,255,0.85);
       transition: opacity 0.25s;
       font-family: 'DM Sans', sans-serif;
     }
@@ -525,8 +533,8 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
-      #main-nav { padding: 14px 28px; }
-      #main-nav.compact { padding: 10px 28px; }
+      #main-nav { padding: 22px 28px; }
+      #main-nav.solid { padding: 14px 28px; }
       .nav-links { gap: 22px; }
       #hero { padding: 140px 28px 96px; }
       .scroll-indicator { right: 28px; bottom: 32px; }
@@ -610,7 +618,7 @@
         <a href="/realisations/" class="nav-link active" aria-current="page">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link">Carrières</a>
-        <a href="/#franchises" class="nav-cta">Nos Succursales</a>
+        <a href="/notre-equipe/#team" class="nav-cta">Contactez-nous</a>
       </div>
     </div>
   </nav>
@@ -654,9 +662,9 @@
       <!-- Entry 1 — Noël · entry-left: images left, text right -->
       <div class="timeline-entry entry-left fade-up">
         <div class="entry-images three-up">
-          <img class="photo-main" src="https://placehold.co/520x480/1e1810/2e2218" alt="Distribution de repas de Noël — MKG Gestion">
-          <img src="https://placehold.co/320x236/1a1612/2a201a" alt="Bénévoles MKG lors du repas de Noël">
-          <img src="https://placehold.co/320x236/161210/24190f" alt="Refuge de Montréal partenaire MKG">
+          <img class="photo-main" src="../brand_assets/AI_images/food_handover_closeup.jpg" alt="Distribution de repas de Noël — MKG Gestion">
+          <img src="../brand_assets/AI_images/serving_hot_meal_wide.jpg" alt="Bénévoles MKG lors du repas de Noël">
+          <img src="../brand_assets/AI_images/volunteer_portrait.jpg" alt="Refuge de Montréal partenaire MKG">
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-text">
@@ -677,15 +685,15 @@
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-images one-up">
-          <img src="https://placehold.co/720x480/141820/1e2030" alt="10e succursale MKG Gestion">
+          <img src="../brand_assets/AI_images/10_franchises_milestone.jpg" alt="10e succursale MKG Gestion">
         </div>
       </div>
 
       <!-- Entry 3 — Réduction déchets · entry-left: images left, text right -->
       <div class="timeline-entry entry-left fade-up">
         <div class="entry-images two-up">
-          <img src="https://placehold.co/400x380/14181a/1e2428" alt="Programme compostage MKG Gestion">
-          <img src="https://placehold.co/400x380/121814/1c2018" alt="Redistribution alimentaire MKG">
+          <img src="../brand_assets/AI_images/composting_waste_reduction.jpg" alt="Programme compostage MKG Gestion">
+          <img src="../brand_assets/AI_images/food_redistribution.jpg" alt="Redistribution alimentaire MKG">
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-text">
@@ -712,17 +720,17 @@
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-images three-up">
-          <img class="photo-main" src="https://placehold.co/520x480/181410/28201c" alt="Jeunes en formation MKG Gestion">
-          <img src="https://placehold.co/320x236/141210/20181a" alt="Programme d'insertion professionnelle MKG">
-          <img src="https://placehold.co/320x236/161410/221c14" alt="Équipe jeunes MKG Gestion Montréal">
+          <img class="photo-main" src="../brand_assets/AI_images/integration_hero.jpg" alt="Jeunes en formation MKG Gestion">
+          <img src="../brand_assets/AI_images/team_collaboration.jpg" alt="Programme d'insertion professionnelle MKG">
+          <img src="../brand_assets/AI_images/waitstaff_training.jpg" alt="Équipe jeunes MKG Gestion Montréal">
         </div>
       </div>
 
       <!-- Entry 5 — Fournisseurs locaux · entry-left: images left, text right -->
       <div class="timeline-entry entry-left fade-up">
         <div class="entry-images two-up">
-          <img src="https://placehold.co/400x380/1a1810/2a2018" alt="Fournisseur local partenaire MKG">
-          <img src="https://placehold.co/400x380/181614/28221c" alt="Produits locaux MKG Gestion">
+          <img src="../brand_assets/AI_images/fresh_local_ingredients.jpg" alt="Fournisseur local partenaire MKG">
+          <img src="../brand_assets/AI_images/quebec_local_farmer.jpg" alt="Produits locaux MKG Gestion">
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-text">
@@ -749,7 +757,7 @@
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-images one-up">
-          <img src="https://placehold.co/720x480/131618/1e2228" alt="Première succursale Yuzu Sushi sous MKG Gestion">
+          <img src="../brand_assets/AI_images/yuzu_sushi_opening.jpg" alt="Première succursale Yuzu Sushi sous MKG Gestion">
         </div>
       </div>
 
@@ -762,7 +770,7 @@
       <!-- Entry 7 — Fondation · entry-left: images left, text right -->
       <div class="timeline-entry entry-left fade-up">
         <div class="entry-images one-up">
-          <img src="https://placehold.co/720x480/1e1a12/2e2418" alt="Fondation MKG Gestion — Max Kirchbach">
+          <img src="../brand_assets/AI_images/mkg_foundation.jpg" alt="Fondation MKG Gestion — Max Kirchbach">
         </div>
         <div class="entry-dot-zone"><div class="entry-dot"></div></div>
         <div class="entry-text">
@@ -783,7 +791,7 @@
       <h2 class="cta-strip-heading serif">
         Envie de contribuer à notre <em>mission</em>&nbsp;?
       </h2>
-      <a href="/carrieres/" class="cta-strip-link">Voir nos offres d'emploi</a>
+      <a href="/carrieres/#offres" class="cta-strip-link">Voir nos offres d'emploi</a>
     </div>
   </section>
 
@@ -827,10 +835,20 @@
   </footer>
 
   <script>
-    /* ── Nav compact on scroll ── */
+    /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
+    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('compact', window.scrollY > 60);
+      const y = window.scrollY;
+      if (y < 60) {
+        nav.classList.remove('solid', 'nav-hidden');
+      } else if (y > lastScrollY) {
+        nav.classList.add('solid');
+        nav.classList.remove('nav-hidden');
+      } else {
+        nav.classList.add('nav-hidden');
+      }
+      lastScrollY = y;
     }, { passive: true });
 
     /* ── Franchise dropdown ── */

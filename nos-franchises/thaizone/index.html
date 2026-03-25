@@ -141,37 +141,46 @@
     .fade-up.d3 { transition-delay: 0.38s; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── Nav (always solid on sub-pages) ─── */
+    /* ─── Nav ─── */
     #main-nav {
       position: fixed; inset: 0 0 auto;
       z-index: 200;
-      padding: 18px 64px;
-      background: rgba(255,255,255,0.97);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.07);
-      backdrop-filter: blur(12px);
-      transition: padding 0.4s ease;
+      padding: 28px 64px;
+      transition: background 0.5s ease, box-shadow 0.5s ease, padding 0.5s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
-    #main-nav.compact { padding: 13px 64px; }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    #main-nav.solid {
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 4px 24px rgba(0,0,0,0.05);
+      padding: 18px 64px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    #main-nav.solid .nav-link          { color: #111; }
+    #main-nav.solid .nav-dropdown-trigger { color: #111; }
+    #main-nav.solid .nav-cta           { color: #111; border-color: rgba(0,0,0,0.3); }
+    #main-nav.solid .nav-cta:hover     { background: #111; color: #fff; border-color: #111; }
+    #main-nav.solid .nav-logo          { filter: brightness(0); }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
       max-width: 1360px; margin: 0 auto;
     }
-    .nav-logo { height: 48px; width: auto; filter: brightness(0); }
+    .nav-logo { height: 160px; width: auto; filter: brightness(0) invert(1); transition: filter 0.4s ease; }
     .nav-links { display: flex; gap: 40px; align-items: center; }
     .nav-link {
       font-size: 13px; font-weight: 400; letter-spacing: 0.03em;
-      text-decoration: none; color: #111;
+      text-decoration: none; color: rgba(255,255,255,0.85);
       transition: opacity 0.25s;
     }
     .nav-link:hover { opacity: 0.45; }
     .nav-cta {
       font-size: 12px; font-weight: 400; letter-spacing: 0.1em;
       text-transform: uppercase; text-decoration: none;
-      color: #111; border: 1px solid rgba(0,0,0,0.3);
+      color: rgba(255,255,255,0.85); border: 1px solid rgba(255,255,255,0.45);
       padding: 9px 22px;
       transition: background 0.25s, border-color 0.25s, color 0.25s;
     }
-    .nav-cta:hover { background: #111; color: #fff; border-color: #111; }
+    .nav-cta:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.7); }
 
     /* ─── Nav dropdown ─── */
     .nav-item { position: relative; }
@@ -179,7 +188,7 @@
       background: none; border: none; cursor: pointer;
       display: inline-flex; align-items: center; gap: 5px; padding: 0;
       font-size: 13px; font-weight: 400; letter-spacing: 0.03em;
-      color: #111; transition: opacity 0.25s;
+      color: rgba(255,255,255,0.85); transition: opacity 0.25s;
       font-family: 'DM Sans', sans-serif;
     }
     .nav-dropdown-trigger:hover { opacity: 0.45; }
@@ -220,7 +229,7 @@
 
     /* ─── Page hero ─── */
     #page-hero {
-      position: relative; height: 28vh; min-height: 240px;
+      position: relative; height: 46vh; min-height: 360px;
       display: flex; align-items: flex-end; overflow: hidden;
       padding-top: 56px;
     }
@@ -401,8 +410,10 @@
     .restaurant-order-btn:hover { background: #E91E8C; transform: translateY(-1px); }
     .restaurant-order-btn:focus-visible { outline: 2px solid #E91E8C; outline-offset: 2px; }
     .restaurant-hours {
-      font-size: 10.5px; color: #bbb; letter-spacing: 0.08em; text-transform: uppercase;
+      display: flex; flex-wrap: wrap; gap: 2px 6px; align-items: center;
+      font-size: 10px; color: #bbb; letter-spacing: 0.07em; text-transform: uppercase; margin-top: 4px; line-height: 1.6;
     }
+    .hours-sep { color: rgba(255,255,255,0.18); font-size: 9px; }
 
     /* ─── Footer ─── */
     #footer { background: #fff; padding: 72px 64px 40px; position: relative; overflow: hidden; }
@@ -427,8 +438,8 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
-      #main-nav { padding: 14px 28px; }
-      #main-nav.compact { padding: 11px 28px; }
+      #main-nav { padding: 22px 28px; }
+      #main-nav.solid { padding: 14px 28px; }
       .nav-links { gap: 20px; }
       .hero-content { padding: 0 28px 56px; }
       .hero-logo-wrap { right: 28px; }
@@ -448,6 +459,16 @@
       .search-input-wrap { min-width: 0; }
       .hero-logo-wrap { display: none; }
     }
+    .cross-brand-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: #D4A547; color: #0e0d0a;
+      text-decoration: none; font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; transition: opacity 0.2s, transform 0.2s;
+    }
+    .cross-brand-btn:hover { opacity: 0.82; transform: translateY(-2px); }
+    .cross-brand-btn:active { transform: scale(0.97); }
+    .cross-brand-btn:focus-visible { outline: 2px solid #D4A547; outline-offset: 3px; }
   </style>
 </head>
 <body>
@@ -478,7 +499,7 @@
         <a href="/realisations/" class="nav-link">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link">Carrières</a>
-        <a href="/#franchises" class="nav-cta">Nos Succursales</a>
+        <a href="/notre-equipe/#team" class="nav-cta">Contactez-nous</a>
       </div>
     </div>
   </nav>
@@ -492,7 +513,6 @@
       <img src="../../brand_assets/logos/thaizone logo vrai.png" alt="Logo Thaïzone" class="hero-logo" loading="eager">
     </div>
     <div class="hero-content">
-      <p class="hero-eyebrow fade-up">Cuisine Thaïlandaise · Québec</p>
       <h1 class="hero-h1 fade-up d1">Nos restaurants <em>Thaïzone</em></h1>
       <p class="hero-sub fade-up d2">Une cuisine thaïlandaise urbaine, audacieuse et fraîche — près de chez vous.</p>
     </div>
@@ -539,127 +559,67 @@
 
       <ul id="restaurant-list" class="restaurant-list" role="list">
 
-        <li class="restaurant-card fade-up" data-city="montreal" data-postal="h2j" role="listitem">
+        <li class="restaurant-card fade-up" data-city="quebec" data-postal="g1g" role="listitem">
           <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Plateau-Mont-Royal</h3>
-            <address class="restaurant-address">4521 Rue Saint-Denis, Montréal, QC H2J 2L5</address>
-            <a href="tel:+15145550101" class="restaurant-phone">+1 (514) 555-0101</a>
+            <h3 class="restaurant-name">Thaïzone — Charlesbourg</h3>
+            <address class="restaurant-address">11001 Boul. Henri-Bourassa, Québec, QC G1G 3X4</address>
+            <a href="tel:+14186269503" class="restaurant-phone">(418) 626-9503</a>
           </div>
           <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=plateau" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Plateau-Mont-Royal">
+            <a href="https://thaizone.order-online.ai/" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Charlesbourg">
               Commander Maintenant
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
+            <div class="restaurant-hours"><span>Lun–Mer 11h–21h</span><span class="hours-sep">·</span><span>Jeu–Sam 11h–22h</span><span class="hours-sep">·</span><span>Dim 11h–21h</span></div>
           </div>
         </li>
 
-        <li class="restaurant-card fade-up" data-city="montreal" data-postal="h3g" role="listitem">
+        <li class="restaurant-card fade-up" data-city="rimouski" data-postal="g5m" role="listitem">
           <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Centre-ville</h3>
-            <address class="restaurant-address">1260 Rue Sainte-Catherine O., Montréal, QC H3G 1P2</address>
-            <a href="tel:+15145550102" class="restaurant-phone">+1 (514) 555-0102</a>
+            <h3 class="restaurant-name">Thaïzone — Rimouski</h3>
+            <address class="restaurant-address">371 Av. Léonidas Sud, Rimouski, QC G5M 1A1</address>
+            <a href="tel:+15818241515" class="restaurant-phone">(581) 824-1515</a>
           </div>
           <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=centreville" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Centre-ville">
+            <a href="https://thaizone.ca/commandez-en-ligne/?_gl=1*ygl5u7*_gcl_au*MTM3MTQ5NjE1OS4xNzcyNTk5ODAz*_ga*MTEyMjc2NTAwLjE3NzI1OTk3OTY.*_ga_D06MC3EF21*czE3NzQzODczMDIkbzckZzEkdDE3NzQzODkwNTMkajYwJGwwJGgw#/?service=takeout&restoCode=ZON050" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Rimouski">
               Commander Maintenant
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
+            <div class="restaurant-hours"><span>Lun–Dim 11h–21h</span></div>
           </div>
         </li>
 
-        <li class="restaurant-card fade-up" data-city="laval" data-postal="h7t" role="listitem">
+        <li class="restaurant-card fade-up" data-city="quebec" data-postal="g1c" role="listitem">
           <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Laval Centropolis</h3>
-            <address class="restaurant-address">3035 Le Carrefour Blvd, Laval, QC H7T 1C8</address>
-            <a href="tel:+14505550103" class="restaurant-phone">+1 (450) 555-0103</a>
+            <h3 class="restaurant-name">Thaïzone — Beauport Nord</h3>
+            <address class="restaurant-address">3320 Rue du Carrefour, Québec, QC G1C 8J9</address>
+            <a href="tel:+14186608424" class="restaurant-phone">(418) 660-8424</a>
           </div>
           <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=laval-centropolis" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Laval Centropolis">
+            <a href="https://thaizone.ca/commandez-en-ligne/?_gl=1*ezg8kp*_gcl_au*MTM3MTQ5NjE1OS4xNzcyNTk5ODAz*_ga*MTEyMjc2NTAwLjE3NzI1OTk3OTY.*_ga_D06MC3EF21*czE3NzQzODczMDIkbzckZzEkdDE3NzQzODkwOTIkajIxJGwwJGgw#/?service=takeout&restoCode=ZON052" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Beauport Nord">
               Commander Maintenant
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
             </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
-          </div>
-        </li>
-
-        <li class="restaurant-card fade-up" data-city="longueuil" data-postal="j4k" role="listitem">
-          <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Longueuil</h3>
-            <address class="restaurant-address">825 Rue Saint-Laurent O., Longueuil, QC J4K 2V2</address>
-            <a href="tel:+14505550104" class="restaurant-phone">+1 (450) 555-0104</a>
-          </div>
-          <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=longueuil" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Longueuil">
-              Commander Maintenant
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
-          </div>
-        </li>
-
-        <li class="restaurant-card fade-up" data-city="brossard" data-postal="j4y" role="listitem">
-          <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Brossard Quartier DIX30</h3>
-            <address class="restaurant-address">9160 Blvd Leduc, Brossard, QC J4Y 0H3</address>
-            <a href="tel:+14505550105" class="restaurant-phone">+1 (450) 555-0105</a>
-          </div>
-          <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=brossard-dix30" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Brossard DIX30">
-              Commander Maintenant
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
-          </div>
-        </li>
-
-        <li class="restaurant-card fade-up" data-city="boucherville" data-postal="j4b" role="listitem">
-          <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Boucherville</h3>
-            <address class="restaurant-address">500 Rue de la Rivière-aux-Pins, Boucherville, QC J4B 5E4</address>
-            <a href="tel:+14505550106" class="restaurant-phone">+1 (450) 555-0106</a>
-          </div>
-          <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=boucherville" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Boucherville">
-              Commander Maintenant
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
-          </div>
-        </li>
-
-        <li class="restaurant-card fade-up" data-city="saint-hubert" data-postal="j3y" role="listitem">
-          <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Saint-Hubert</h3>
-            <address class="restaurant-address">5745 Blvd Cousineau, Saint-Hubert, QC J3Y 7E7</address>
-            <a href="tel:+14505550107" class="restaurant-phone">+1 (450) 555-0107</a>
-          </div>
-          <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=saint-hubert" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Saint-Hubert">
-              Commander Maintenant
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
-          </div>
-        </li>
-
-        <li class="restaurant-card fade-up" data-city="repentigny" data-postal="j6a" role="listitem">
-          <div class="restaurant-card-main">
-            <h3 class="restaurant-name">Thaïzone — Repentigny</h3>
-            <address class="restaurant-address">400 Blvd Brien, Repentigny, QC J6A 5N2</address>
-            <a href="tel:+14505550108" class="restaurant-phone">+1 (450) 555-0108</a>
-          </div>
-          <div class="restaurant-card-action">
-            <a href="https://thaizone.ca/commande/?location=repentigny" class="restaurant-order-btn" target="_blank" rel="noopener noreferrer" aria-label="Commander maintenant chez Thaïzone Repentigny">
-              Commander Maintenant
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <p class="restaurant-hours">Lun – Dim : 11h00 – 22h00</p>
+            <div class="restaurant-hours"><span>Lun–Mer 11h–21h</span><span class="hours-sep">·</span><span>Jeu 11h–22h</span><span class="hours-sep">·</span><span>Ven 11h–1h</span><span class="hours-sep">·</span><span>Sam 11h–22h</span><span class="hours-sep">·</span><span>Dim 11h–21h</span></div>
           </div>
         </li>
 
       </ul>
+    </div>
+  </section>
+
+  <!-- ═══ CROSS-BRAND CTA ═══ -->
+  <section style="background:#c45a00 url('../../brand_assets/website_improvement/premium_sushi_plate.jpg') center/cover no-repeat;padding:80px 64px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.42);pointer-events:none;"></div>
+    <div style="position:relative;z-index:1;max-width:560px;margin:0 auto;" class="fade-up">
+      <img src="../../brand_assets/logos/yuzu suhi logo.png" alt="Yuzu Sushi" style="height:36px;width:auto;filter:brightness(0) invert(1);opacity:0.95;margin-bottom:20px;display:block;margin-left:auto;margin-right:auto;">
+      <p style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:12px;">Nos autres franchises</p>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,38px);font-weight:400;color:#fff;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;">Découvrez aussi <em style="font-style:italic;color:#D4A547;">Yuzu Sushi</em></h2>
+      <p style="font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.7;font-weight:300;color:rgba(255,255,255,0.85);max-width:420px;margin:0 auto 28px;">Des sushis premium raffinés et créatifs — à votre portée au Québec.</p>
+      <a href="/nos-franchises/yuzu-sushi/" class="cross-brand-btn">
+        Explorer Yuzu Sushi
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
     </div>
   </section>
 
@@ -702,10 +662,20 @@
   </footer>
 
   <script>
-    /* ── Nav compact on scroll ── */
+    /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
+    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('compact', window.scrollY > 10);
+      const y = window.scrollY;
+      if (y < 60) {
+        nav.classList.remove('solid', 'nav-hidden');
+      } else if (y > lastScrollY) {
+        nav.classList.add('solid');
+        nav.classList.remove('nav-hidden');
+      } else {
+        nav.classList.add('nav-hidden');
+      }
+      lastScrollY = y;
     }, { passive: true });
 
     /* ── Franchise dropdown ── */

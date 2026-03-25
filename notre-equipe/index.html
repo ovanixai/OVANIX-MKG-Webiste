@@ -84,18 +84,22 @@
     .fade-up.d4 { transition-delay: 0.54s; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    /* ─── Nav — always solid (subpage) ─── */
+    /* ─── Nav ─── */
     #main-nav {
       position: fixed;
       inset: 0 0 auto;
       z-index: 200;
-      padding: 18px 64px;
-      background: rgba(255,255,255,0.97);
-      box-shadow: 0 1px 0 rgba(0,0,0,0.07);
-      backdrop-filter: blur(12px);
-      transition: padding 0.4s ease;
+      padding: 28px 64px;
+      transition: background 0.5s ease, box-shadow 0.5s ease, padding 0.5s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
-    #main-nav.compact { padding: 12px 64px; }
+    #main-nav.nav-hidden { transform: translateY(-100%); }
+    #main-nav.solid {
+      background: rgba(255,255,255,0.97);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.07), 0 4px 24px rgba(0,0,0,0.05);
+      padding: 18px 64px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
     .nav-inner {
       display: flex;
       align-items: center;
@@ -103,7 +107,7 @@
       max-width: 1360px;
       margin: 0 auto;
     }
-    .nav-logo { height: 56px; width: auto; filter: brightness(0); }
+    .nav-logo { height: 160px; width: auto; filter: brightness(0); transition: filter 0.4s ease; }
     .nav-links { display: flex; gap: 40px; align-items: center; }
     .nav-link {
       font-size: 13px;
@@ -513,7 +517,8 @@
 
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
-      #main-nav { padding: 14px 28px !important; }
+      #main-nav { padding: 22px 28px; }
+      #main-nav.solid { padding: 14px 28px; }
       .nav-links { gap: 22px; }
       #founder { padding: 80px 28px 60px; }
       #team { padding: 0 28px 96px; }
@@ -689,7 +694,7 @@
         <a href="/realisations/" class="nav-link">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link active" aria-current="page">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link">Carrières</a>
-        <a href="/#franchises" class="nav-cta">Nos Succursales</a>
+        <a href="/notre-equipe/#team" class="nav-cta">Contactez-nous</a>
       </div>
     </div>
   </nav>
@@ -1060,10 +1065,20 @@
   </footer>
 
   <script>
-    /* ── Nav compact on scroll ── */
+    /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
+    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('compact', window.scrollY > 60);
+      const y = window.scrollY;
+      if (y < 60) {
+        nav.classList.remove('solid', 'nav-hidden');
+      } else if (y > lastScrollY) {
+        nav.classList.add('solid');
+        nav.classList.remove('nav-hidden');
+      } else {
+        nav.classList.add('nav-hidden');
+      }
+      lastScrollY = y;
     }, { passive: true });
 
     /* ── Franchise dropdown ── */
