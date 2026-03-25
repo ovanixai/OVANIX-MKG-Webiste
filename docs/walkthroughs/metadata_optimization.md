@@ -17,6 +17,7 @@ I have implemented a comprehensive metadata and social media optimization strate
     - Created a standard `favicon.ico` for legacy support.
     - Generated a high-resolution `favicon.png` (32x32).
     - Produced a professional `apple-touch-icon.png` (180x180) for a premium experience on mobile devices.
+    - *Refined: Added 15% padding to the logo within the icon to prevent a "cropped" appearance in browser tabs.*
 - **Asset Management**: All new assets are organized in the `brand_assets/` directory.
 
 ### Open Graph Image
