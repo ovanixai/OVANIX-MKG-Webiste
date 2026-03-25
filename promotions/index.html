@@ -307,37 +307,31 @@
     }
     .hero-brand-pills {
       display: flex;
-      gap: 16px;
-      margin-top: 40px;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      margin-top: 44px;
     }
-    .brand-pill {
+    .hero-brand-logo-link {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 8px 16px;
-      border-radius: 0;
-      border: 1px solid;
     }
-    .brand-pill-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+    .hero-brand-logo {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.72;
+      display: block;
+      transition: opacity 0.25s;
     }
-    .brand-pill-thaizone {
-      color: #E91E8C;
-      border-color: rgba(233,30,140,0.35);
+    .hero-brand-logo-link:hover .hero-brand-logo { opacity: 1; }
+    .hero-brand-logo-sep {
+      width: 1px;
+      height: 22px;
+      background: rgba(255,255,255,0.18);
+      display: inline-block;
+      margin: 0 28px;
+      flex-shrink: 0;
     }
-    .brand-pill-thaizone .brand-pill-dot { background: #E91E8C; }
-    .brand-pill-yuzu {
-      color: #D4A547;
-      border-color: rgba(212,165,71,0.35);
-    }
-    .brand-pill-yuzu .brand-pill-dot { background: #D4A547; }
 
     .scroll-indicator {
       position: absolute;
@@ -444,6 +438,15 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
+    }
+    .filter-chip-franchise {
+      text-transform: none;
+      letter-spacing: 0;
+      gap: 0;
+    }
+    .filter-chip-franchise.active-thaizone .nav-franchise-name,
+    .filter-chip-franchise.active-yuzu .nav-franchise-name {
+      color: #fff;
     }
 
     /* ─── Promo Cards Section ─── */
@@ -803,36 +806,65 @@
       letter-spacing: -0.015em;
       color: #111;
     }
-    .cta-strip-buttons {
+    .cta-franchise-cards {
       display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+      gap: 12px;
+      flex-shrink: 0;
     }
-    .cta-franchise-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 28px;
-      font-size: 11.5px;
+    .cta-franchise-card {
+      position: relative;
+      overflow: hidden;
+      width: 240px;
+      height: 150px;
+      display: block;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .cta-franchise-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #fff;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+      padding: 20px 28px;
+    }
+    .cta-franchise-card:hover .cta-franchise-card-img { transform: scale(1.04); }
+    .cta-franchise-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.68) 0%, rgba(0,0,0,0.06) 55%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px 16px;
+      transition: background 0.35s;
+    }
+    .cta-franchise-card:hover .cta-franchise-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.14) 55%, transparent 100%);
+    }
+    .cta-franchise-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.1;
+      display: block;
+    }
+    .cta-franchise-cta-text {
+      font-size: 10px;
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      text-decoration: none;
-      border: 1px solid;
-      transition: background 0.28s cubic-bezier(0.16,1,0.3,1),
-                  color 0.28s, transform 0.28s cubic-bezier(0.16,1,0.3,1);
+      color: rgba(255,255,255,0.58);
+      display: block;
+      margin-top: 5px;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.3s cubic-bezier(0.16,1,0.3,1);
     }
-    .cta-franchise-btn:hover { transform: translateY(-2px); }
-    .btn-thaizone {
-      color: #E91E8C;
-      border-color: #E91E8C;
-    }
-    .btn-thaizone:hover { background: #E91E8C; color: #fff; }
-    .btn-yuzu {
-      color: #B8862A;
-      border-color: #D4A547;
-    }
-    .btn-yuzu:hover { background: #D4A547; color: #fff; }
+    .cta-franchise-card:hover .cta-franchise-cta-text { opacity: 1; transform: translateY(0); }
 
     /* ─── Footer ─── */
     #footer {
@@ -884,11 +916,13 @@
       .filter-bar-inner { padding: 14px 28px; }
       .how-steps { grid-template-columns: 1fr; }
       .cta-strip-inner { flex-direction: column; align-items: flex-start; gap: 32px; }
+      .cta-franchise-cards { flex-direction: column; }
+      .cta-franchise-card { width: 100%; height: 130px; }
     }
     @media (max-width: 560px) {
       .nav-links { gap: 16px; }
       .promos-grid { grid-template-columns: 1fr; }
-      .hero-brand-pills { flex-direction: column; align-items: flex-start; }
+      .hero-brand-logo { height: 28px; }
     }
   </style>
 </head>
@@ -991,14 +1025,13 @@
         Des offres exclusives pour nos étudiants, partenaires corporatifs et clients fidèles. Disponibles dans tous nos restaurants Thaïzone et Yuzu Sushi au Québec.
       </p>
       <div class="hero-brand-pills fade-up d3">
-        <span class="brand-pill brand-pill-thaizone">
-          <span class="brand-pill-dot"></span>
-          Thaïzone
-        </span>
-        <span class="brand-pill brand-pill-yuzu">
-          <span class="brand-pill-dot"></span>
-          Yuzu Sushi
-        </span>
+        <a href="/nos-franchises/thaizone/" class="hero-brand-logo-link">
+          <img src="../brand_assets/logos/thaizone logo vrai.png" alt="Thaïzone" class="hero-brand-logo">
+        </a>
+        <span class="hero-brand-logo-sep" aria-hidden="true"></span>
+        <a href="/nos-franchises/yuzu-sushi/" class="hero-brand-logo-link">
+          <img src="../brand_assets/logos/yuzu suhi logo.png" alt="Yuzu Sushi" class="hero-brand-logo">
+        </a>
       </div>
     </div>
 
@@ -1013,13 +1046,11 @@
   <div id="filter-bar" role="navigation" aria-label="Filtrer les offres">
     <div class="filter-bar-inner">
       <button class="filter-chip active" data-filter="toutes">Toutes les offres</button>
-      <button class="filter-chip" data-filter="thaizone" data-active-class="active-thaizone">
-        <span class="filter-chip-dot" style="background:#E91E8C;"></span>
-        Thaïzone
+      <button class="filter-chip filter-chip-franchise" data-filter="thaizone" data-active-class="active-thaizone">
+        <em class="nav-franchise-name" data-brand="thaizone">Thaïzone</em>
       </button>
-      <button class="filter-chip" data-filter="yuzu" data-active-class="active-yuzu">
-        <span class="filter-chip-dot" style="background:#D4A547;"></span>
-        Yuzu Sushi
+      <button class="filter-chip filter-chip-franchise" data-filter="yuzu" data-active-class="active-yuzu">
+        <em class="nav-franchise-name" data-brand="yuzu">Yuzu Sushi</em>
       </button>
       <button class="filter-chip" data-filter="etudiant">Étudiant</button>
       <button class="filter-chip" data-filter="corporatif">Corporatif</button>
@@ -1275,14 +1306,20 @@
   <div id="cta-strip">
     <div class="cta-strip-inner">
       <p class="cta-strip-text">Envie de découvrir nos établissements ?</p>
-      <div class="cta-strip-buttons">
-        <a href="/nos-franchises/thaizone/" class="cta-franchise-btn btn-thaizone">
-          Voir Thaïzone
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div class="cta-franchise-cards">
+        <a href="/nos-franchises/thaizone/" class="cta-franchise-card">
+          <img src="../brand_assets/logos/thaizone logo vrai.png" alt="Thaïzone" class="cta-franchise-card-img">
+          <div class="cta-franchise-overlay">
+            <span class="cta-franchise-label">Thaïzone</span>
+            <span class="cta-franchise-cta-text">Voir les succursales</span>
+          </div>
         </a>
-        <a href="/nos-franchises/yuzu-sushi/" class="cta-franchise-btn btn-yuzu">
-          Voir Yuzu Sushi
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <a href="/nos-franchises/yuzu-sushi/" class="cta-franchise-card">
+          <img src="../brand_assets/logos/yuzu suhi logo.png" alt="Yuzu Sushi" class="cta-franchise-card-img">
+          <div class="cta-franchise-overlay">
+            <span class="cta-franchise-label">Yuzu Sushi</span>
+            <span class="cta-franchise-cta-text">Voir les succursales</span>
+          </div>
         </a>
       </div>
     </div>

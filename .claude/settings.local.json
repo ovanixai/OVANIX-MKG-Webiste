@@ -13,7 +13,9 @@
       "Bash(node screenshot.mjs \"http://localhost:3000/#about\" mission-before)",
       "Bash(node -e \":*)",
       "Bash(node screenshot.mjs http://localhost:3000 quote-pass1)",
-      "Bash(head -3 node -e \":*)"
+      "Bash(head -3 node -e \":*)",
+      "Bash(node screenshot.mjs http://localhost:3000/promotions/ hero)",
+      "Bash(node screenshot.mjs http://localhost:3000/promotions/ promos-full)"
     ]
   }
 }
