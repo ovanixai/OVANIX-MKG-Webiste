@@ -15,7 +15,20 @@
       "Bash(node screenshot.mjs http://localhost:3000 quote-pass1)",
       "Bash(head -3 node -e \":*)",
       "Bash(node screenshot.mjs http://localhost:3000/promotions/ hero)",
-      "Bash(node screenshot.mjs http://localhost:3000/promotions/ promos-full)"
+      "Bash(node screenshot.mjs http://localhost:3000/promotions/ promos-full)",
+      "Bash(node serve.mjs)",
+      "Bash(node screenshot.mjs http://localhost:3000/realisations/ hero)",
+      "Bash(node screenshot.mjs http://localhost:3000/realisations/ timeline-full)",
+      "Bash(lsof -ti:3000)",
+      "Bash(node screenshot.mjs http://localhost:3000/notre-equipe/ equipe-v1)",
+      "Bash(node screenshot.mjs http://localhost:3000/notre-equipe/#team equipe-team)",
+      "Bash(node screenshot.mjs http://localhost:3000/notre-equipe/ equipe-v2)",
+      "Bash(node screenshot.mjs \"http://localhost:3000/notre-equipe/\" gestionnaires)",
+      "Bash(node screenshot.mjs http://localhost:3000 homepage)",
+      "Bash(node screenshot.mjs http://localhost:3000/carrieres carrieres)",
+      "Bash(node screenshot.mjs http://localhost:3000/carrieres/ carrieres2)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
