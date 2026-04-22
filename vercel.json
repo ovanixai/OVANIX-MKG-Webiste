@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/promotions", "destination": "/", "permanent": true },
+    { "source": "/promotions/", "destination": "/", "permanent": true }
+  ]
+}
