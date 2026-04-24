@@ -28,7 +28,8 @@
       "Bash(node screenshot.mjs http://localhost:3000/carrieres carrieres)",
       "Bash(node screenshot.mjs http://localhost:3000/carrieres/ carrieres2)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e ' *)"
     ]
   }
 }

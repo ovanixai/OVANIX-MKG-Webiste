@@ -49,7 +49,7 @@
         "servesCuisine": "Thai",
         "priceRange": "$$",
         "telephone": "+14186269503",
-        "address": { "@type": "PostalAddress", "streetAddress": "11001 Boul. Henri-Bourassa", "addressLocality": "Québec", "addressRegion": "QC", "postalCode": "G1G 3X4", "addressCountry": "CA" },
+        "address": { "@type": "PostalAddress", "streetAddress": "11001, boulevard Henri-Bourassa", "addressLocality": "Québec", "addressRegion": "QC", "postalCode": "G1G 3X4", "addressCountry": "CA" },
         "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "11:00", "closes": "22:00" }],
         "parentOrganization": { "@type": "Organization", "name": "Gestion MKG", "url": "https://mkggestion.com" }
       },
@@ -60,7 +60,7 @@
         "servesCuisine": "Thai",
         "priceRange": "$$",
         "telephone": "+15818241515",
-        "address": { "@type": "PostalAddress", "streetAddress": "371 Av. Léonidas Sud", "addressLocality": "Rimouski", "addressRegion": "QC", "postalCode": "G5M 1A1", "addressCountry": "CA" },
+        "address": { "@type": "PostalAddress", "streetAddress": "371, avenue Léonidas Sud", "addressLocality": "Rimouski", "addressRegion": "QC", "postalCode": "G5M 1A1", "addressCountry": "CA" },
         "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "11:00", "closes": "22:00" }],
         "parentOrganization": { "@type": "Organization", "name": "Gestion MKG", "url": "https://mkggestion.com" }
       },
@@ -71,7 +71,7 @@
         "servesCuisine": "Thai",
         "priceRange": "$$",
         "telephone": "+14186608424",
-        "address": { "@type": "PostalAddress", "streetAddress": "3320 Rue du Carrefour", "addressLocality": "Québec", "addressRegion": "QC", "postalCode": "G1C 8J9", "addressCountry": "CA" },
+        "address": { "@type": "PostalAddress", "streetAddress": "3320, rue du Carrefour", "addressLocality": "Québec", "addressRegion": "QC", "postalCode": "G1C 8J9", "addressCountry": "CA" },
         "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "11:00", "closes": "22:00" }],
         "parentOrganization": { "@type": "Organization", "name": "Gestion MKG", "url": "https://mkggestion.com" }
       }
@@ -396,11 +396,75 @@
     .social-btn:hover svg { stroke: #fff; }
     .social-btn svg { transition: stroke 0.2s; }
 
+    /* ─── Hamburger button ─── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 210;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.85);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s;
+      transform-origin: center;
+    }
+    #main-nav.solid .nav-hamburger span { background: #111; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile-only { display: none; }
+
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
       #main-nav { padding: 22px 28px; }
       #main-nav.solid { padding: 14px 28px; }
-      .nav-links { gap: 20px; }
+      .nav-logo { height: clamp(48px, 9vw, 72px); }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 205;
+        background: rgba(14,12,10,0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-link, .nav-dropdown-trigger {
+        font-size: 22px !important;
+        letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.85) !important;
+        padding: 18px 0;
+        width: 100%;
+        text-align: center;
+      }
+      .nav-item { width: 100%; text-align: center; }
+      .nav-cta {
+        margin-top: 24px;
+        font-size: 13px !important;
+        padding: 14px 36px !important;
+        border-color: rgba(255,255,255,0.4) !important;
+        color: rgba(255,255,255,0.85) !important;
+      }
+      .nav-dropdown { display: none !important; }
+      .nav-mobile-only { display: block; }
+      .nav-desktop-only { display: none !important; }
       .hero-content { padding: 0 28px 56px; }
       .hero-logo-wrap { right: 28px; }
       .hero-logo { height: 52px; }
@@ -437,8 +501,11 @@
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="/"><img src="../../brand_assets/logos/MKG Logo.png" alt="Gestion MKG" class="nav-logo"></a>
-      <div class="nav-links">
-        <div class="nav-item" id="nav-franchises-item">
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="nav-links">
+        <div class="nav-item nav-desktop-only" id="nav-franchises-item">
           <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false"
             aria-controls="nav-franchises-menu" id="nav-franchises-btn">
             Nos Franchises
@@ -455,6 +522,8 @@
             </a>
           </div>
         </div>
+        <a href="/nos-franchises/thaizone/" class="nav-link nav-mobile-only">Thaïzone</a>
+        <a href="/nos-franchises/yuzu-sushi/" class="nav-link nav-mobile-only">Yuzu Sushi</a>
         <a href="/" class="nav-link">Accueil</a>
         <a href="/realisations/" class="nav-link">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
@@ -525,7 +594,7 @@
         <li class="restaurant-card fade-up" data-city="quebec" data-postal="g1g" role="listitem">
           <div class="restaurant-card-main">
             <h3 class="restaurant-name">Thaïzone — Charlesbourg</h3>
-            <address class="restaurant-address">11001 Boul. Henri-Bourassa, Québec, QC G1G 3X4</address>
+            <address class="restaurant-address">11001, boulevard Henri-Bourassa<br>Québec (QC) G1G 3X4</address>
             <a href="tel:+14186269503" class="restaurant-phone">(418) 626-9503</a>
           </div>
           <div class="restaurant-card-action">
@@ -539,7 +608,7 @@
         <li class="restaurant-card fade-up" data-city="rimouski" data-postal="g5m" role="listitem">
           <div class="restaurant-card-main">
             <h3 class="restaurant-name">Thaïzone — Rimouski</h3>
-            <address class="restaurant-address">371 Av. Léonidas Sud, Rimouski, QC G5M 1A1</address>
+            <address class="restaurant-address">371, avenue Léonidas Sud<br>Rimouski (QC) G5M 1A1</address>
             <a href="tel:+15818241515" class="restaurant-phone">(581) 824-1515</a>
           </div>
           <div class="restaurant-card-action">
@@ -553,7 +622,7 @@
         <li class="restaurant-card fade-up" data-city="quebec" data-postal="g1c" role="listitem">
           <div class="restaurant-card-main">
             <h3 class="restaurant-name">Thaïzone — Beauport Nord</h3>
-            <address class="restaurant-address">3320 Rue du Carrefour, Québec, QC G1C 8J9</address>
+            <address class="restaurant-address">3320, rue du Carrefour<br>Québec (QC) G1C 8J9</address>
             <a href="tel:+14186608424" class="restaurant-phone">(418) 660-8424</a>
           </div>
           <div class="restaurant-card-action">
@@ -598,25 +667,6 @@
           <a href="/promotions/" class="footer-link" style="line-height:1; display:inline;">Promotions</a>
           PROMOTIONS_HIDDEN -->
         </nav>
-        <div>
-          <p class="footer-col-title">Nous suivre</p>
-          <div style="display:flex; gap:12px; margin-top:4px;">
-            <a href="#" class="social-btn" aria-label="Instagram">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
-                <rect x="2" y="2" width="20" height="20" rx="5"/>
-                <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.5" cy="6.5" r="0.8" fill="#111" stroke="none"/>
-              </svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="LinkedIn">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
-                <rect x="2" y="9" width="4" height="12"/>
-                <circle cx="4" cy="4" r="2"/>
-              </svg>
-            </a>
-          </div>
-        </div>
       </div>
       <div style="position:absolute; bottom:24px; left:0; right:0; text-align:center;">
         <p style="font-size:11px; color:#bbb; font-weight:300; letter-spacing:0.04em;">© 2025 Gestion MKG. Tous droits réservés.</p>
@@ -625,6 +675,27 @@
   </footer>
 
   <script>
+    /* ── Mobile hamburger ── */
+    (function() {
+      const hamburger = document.getElementById('nav-hamburger');
+      const navLinks  = document.getElementById('nav-links');
+      if (!hamburger || !navLinks) return;
+      hamburger.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+
     /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
     let lastScrollY = window.scrollY;

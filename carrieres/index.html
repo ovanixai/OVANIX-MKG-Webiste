@@ -525,23 +525,90 @@
     .social-btn:hover svg { stroke: #fff; }
     .social-btn svg { transition: stroke 0.2s; }
 
+    /* ─── Hamburger button ─── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 210;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.85);
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s;
+      transform-origin: center;
+    }
+    #main-nav.solid .nav-hamburger span { background: #111; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .nav-mobile-only { display: none; }
+
     /* ─── Responsive ─── */
     @media (max-width: 900px) {
       #main-nav { padding: 22px 28px; }
       #main-nav.solid { padding: 14px 28px; }
-      .nav-links { gap: 22px; }
+      .nav-logo { height: clamp(48px, 9vw, 72px); }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 205;
+        background: rgba(14,12,10,0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-link, .nav-dropdown-trigger {
+        font-size: 22px !important;
+        letter-spacing: 0.04em;
+        color: rgba(255,255,255,0.85) !important;
+        padding: 18px 0;
+        width: 100%;
+        text-align: center;
+      }
+      .nav-item { width: 100%; text-align: center; }
+      .nav-cta {
+        margin-top: 24px;
+        font-size: 13px !important;
+        padding: 14px 36px !important;
+        border-color: rgba(255,255,255,0.4) !important;
+        color: rgba(255,255,255,0.85) !important;
+      }
+      .nav-dropdown { display: none !important; }
+      .nav-mobile-only { display: block; }
+      .nav-desktop-only { display: none !important; }
       .section { padding: 80px 28px; }
       .hero-inner { padding: 0 28px; }
       .hero-head { margin-bottom: 48px; }
       .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-img-wrap img { height: 360px; }
+      .hero-img-wrap img { height: 260px; }
       .faq-head { grid-template-columns: 1fr; gap: 32px; margin-bottom: 40px; }
-      .offres-grid { grid-template-columns: repeat(2, 1fr); }
+      .offres-grid { grid-template-columns: 1fr !important; }
+      .offre-img img { height: 180px; }
+      .offre-btn { padding: 14px 22px !important; font-size: 13px !important; }
       #valeurs { grid-template-columns: 1fr; }
       .valeurs-left { padding: 72px 28px; }
       .valeurs-right { padding: 24px; grid-template-rows: repeat(2, 220px); }
-      .valeur-photo { height: 220px; }
+      .valeur-photo { height: 200px; }
       #footer { padding: 60px 28px 32px; }
+      .hero-h1 { font-size: clamp(32px, 8vw, 74px); }
     }
     @media (max-width: 768px) {
       #hero { padding-top: 104px; }
@@ -550,10 +617,9 @@
       .offres-grid { grid-template-columns: 1fr; }
       .valeurs-right {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 200px);
+        grid-template-rows: repeat(4, 180px);
       }
-      .valeur-photo { height: 200px; }
-      .nav-links { gap: 14px; }
+      .valeur-photo { height: 180px; }
     }
   </style>
 </head>
@@ -563,9 +629,12 @@
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="/"><img src="../brand_assets/logos/MKG Logo.png" alt="Gestion MKG" class="nav-logo"></a>
-      <div class="nav-links">
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="nav-links">
         <a href="/" class="nav-link">Accueil</a>
-        <div class="nav-item" id="nav-franchises-item">
+        <div class="nav-item nav-desktop-only" id="nav-franchises-item">
           <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false"
             aria-controls="nav-franchises-menu" id="nav-franchises-btn">
             Nos Franchises
@@ -582,6 +651,8 @@
             </a>
           </div>
         </div>
+        <a href="/nos-franchises/thaizone/" class="nav-link nav-mobile-only">Thaïzone</a>
+        <a href="/nos-franchises/yuzu-sushi/" class="nav-link nav-mobile-only">Yuzu Sushi</a>
         <a href="/realisations/" class="nav-link">Réalisations</a>
         <a href="/notre-equipe/" class="nav-link">Notre Équipe</a>
         <a href="/carrieres/" class="nav-link active" aria-current="page">Carrières</a>
@@ -616,8 +687,8 @@
         </div>
         <div class="hero-img-wrap fade-up d3">
           <img
-            src="../brand_assets/carrières_page/team bonding 1.jpeg"
-            alt="Équipe Gestion MKG en plein travail collaboratif dans un restaurant Thaïzone au Québec"
+            src="../brand_assets/carrières_page/poste cuisinier.jpg"
+            alt="Cuisinier en action dans la cuisine d'un restaurant Gestion MKG au Québec"
             width="740" height="580">
         </div>
       </div>
@@ -704,20 +775,20 @@
   <!-- ═══ OFFRES D'EMPLOI ═══ -->
   <section id="offres" class="section">
     <div class="section-inner">
-      <p class="eyebrow fade-up" style="margin-bottom:22px;">Offres d'emploi</p>
-      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;">
-        <h2 class="serif fade-up d1" style="font-size:clamp(34px,4vw,56px); line-height:1.08; font-weight:400; letter-spacing:-0.025em; max-width:480px;">
+      <p class="eyebrow fade-up" style="margin-bottom:22px; text-align:center;">Offres d'emploi</p>
+      <div style="text-align:center; max-width:640px; margin:0 auto;">
+        <h2 class="serif fade-up d1" style="font-size:clamp(34px,4vw,56px); line-height:1.08; font-weight:400; letter-spacing:-0.025em;">
           Joins-toi à <em>l'équipe</em>.
         </h2>
-        <p class="fade-up d2" style="font-size:14px; color:#888; font-weight:300; max-width:300px; text-align:right; line-height:1.65;">
-          Des postes ouverts dans nos restaurants à travers tout le Québec.
+        <p class="fade-up d2" style="font-size:15px; color:#666; font-weight:300; line-height:1.75; margin-top:18px;">
+          Pour postuler, fais-nous parvenir tes disponibilités, le poste qui t'intéresse, ton CV ainsi que la succursale de ton choix — et on prend contact avec toi rapidement.
         </p>
       </div>
 
       <div class="offres-grid">
         <div class="offre-card fade-up">
           <div class="offre-img">
-            <img src="../brand_assets/carrières_page/poste cuisinier.jpg"
+            <img src="../brand_assets/carrières_page/poste cuisinier vrai.jpg"
               alt="Cuisinier travaillant en cuisine dans un restaurant Gestion MKG au Québec"
               width="560" height="360">
           </div>
@@ -828,25 +899,6 @@
           <a href="/promotions/" class="footer-link" style="line-height:1; display:inline;">Promotions</a>
           PROMOTIONS_HIDDEN -->
         </nav>
-        <div>
-          <p class="footer-col-title">Nous suivre</p>
-          <div style="display:flex; gap:12px; margin-top:4px;">
-            <a href="#" class="social-btn" aria-label="Instagram">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
-                <rect x="2" y="2" width="20" height="20" rx="5"/>
-                <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.5" cy="6.5" r="0.8" fill="#111" stroke="none"/>
-              </svg>
-            </a>
-            <a href="#" class="social-btn" aria-label="LinkedIn">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
-                <rect x="2" y="9" width="4" height="12"/>
-                <circle cx="4" cy="4" r="2"/>
-              </svg>
-            </a>
-          </div>
-        </div>
       </div>
       <div style="position:absolute; bottom:24px; left:0; right:0; text-align:center;">
         <p style="font-size:11px; color:#bbb; font-weight:300; letter-spacing:0.04em;">© 2025 Gestion MKG. Tous droits réservés.</p>
@@ -855,6 +907,27 @@
   </footer>
 
   <script>
+    /* ── Mobile hamburger ── */
+    (function() {
+      const hamburger = document.getElementById('nav-hamburger');
+      const navLinks  = document.getElementById('nav-links');
+      if (!hamburger || !navLinks) return;
+      hamburger.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        hamburger.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+
     /* ── Nav scroll state ── */
     const nav = document.getElementById('main-nav');
     let lastScrollY = window.scrollY;
